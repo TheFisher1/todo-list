@@ -1,0 +1,59 @@
+version: '3.8'
+services:
+  mongodb:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=password123
+
+  mongo-express:
+    image: mongo-express:latest
+    ports:
+      - "8081:8081"
+    environment:
+      - ME_CONFIG_MONGODB_ADMINUSERNAME=admin
+      - ME_CONFIG_MONGODB_ADMINPASSWORD=password123
+      - ME_CONFIG_MONGODB_URL=mongodb://admin:password123@mongodb:27017/
+    depends_on:
+      - mongodb
+
+  api-gateway:
+    build: 
+      context: ./api-gateway
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=3000
+    depends_on:
+      - user-service
+      - task-service
+
+  user-service:
+    build:
+      context: ./user-service
+    ports:
+      - "3002:3002"
+    environment:
+      - PORT=3002
+      - MONGODB_URI=mongodb://admin:password123@mongodb:27017/todo-users?authSource=admin
+      - JWT_SECRET=your-secret-key
+    depends_on:
+      - mongodb
+
+  task-service:
+    build:
+      context: ./task-service
+    ports:
+      - "3001:3001"
+    environment:
+      - PORT=3001
+      - MONGODB_URI=mongodb://admin:password123@mongodb:27017/todo-tasks?authSource=admin
+    depends_on:
+      - mongodb
+
+volumes:
+  mongodb_data: 
