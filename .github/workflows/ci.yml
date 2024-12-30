@@ -42,7 +42,8 @@ jobs:
           key: ${{ runner.os }}-node-modules-${{ hashFiles('**/package-lock.json') }}
 
       - name: Install dependencies for all services
-        run: |
+        uses: actions/checkout@v4
+      - run: |
           chmod +x ./npmi.sh && ./npmi.sh
 
   build_and_test:
