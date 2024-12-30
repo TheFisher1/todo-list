@@ -17,6 +17,7 @@ on:
       - 'Dockerfile'
       - 'docker-compose.yml'
       - '**/package.json'
+      - '**.yml'
 
 jobs:
   install_dependencies:
@@ -42,9 +43,11 @@ jobs:
           key: ${{ runner.os }}-node-modules-${{ hashFiles('**/package-lock.json') }}
 
       - name: Install dependencies for all services
-        uses: actions/checkout@v4
-      - run: |
-          chmod +x ./scripts/install.sh && ./scripts/install.sh
+        run: |
+          cd api-gateway && npm install
+          cd ../frontend-service && npm install
+          cd ../task-service && npm install
+          cd ../user-service && npm install
 
   build_and_test:
     needs: install_dependencies
@@ -60,7 +63,16 @@ jobs:
         run: |
           docker-compose -f docker-compose.yml build
           docker-compose -f docker-compose.yml up -d
- 
+
+      - name: List running Docker containers (debug)
+        run: docker ps
+
+      - name: Run tests
+        run: |
+          docker-compose exec api-gateway npm run test
+          docker-compose exec frontend-service npm run test
+          docker-compose exec task-service npm run test
+          docker-compose exec user-service npm run test
 
       - name: Shut down docker-compose services
         run: |
