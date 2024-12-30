@@ -59,7 +59,9 @@ router.post('/login', async (req, res) => {
 
 router.get('/profile', auth, async (req, res) => {
   try {
+    console.log(req.user);
     const user = await User.findById(req.user.userId).select('-password');
+    console.log(user);
     res.json(user);
   } catch (error) {
     console.error('Profile error:', error);

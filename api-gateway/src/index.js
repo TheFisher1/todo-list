@@ -1,18 +1,20 @@
 import express  from 'express';
 import { createProxyMiddleware } from 'http-proxy-middleware';
-import config from 'dotenv';
+import 'dotenv/config'
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Proxy requests to user and order services
+const USER_SERVICE_URL = process.env.USER_SERVICE_URL;
+const TASK_SERVICE_URL = process.env.TASK_SERVICE_URL;
+
 app.use('/users', createProxyMiddleware({
-  target: 'http://localhost:3002',
+  target: USER_SERVICE_URL,
   changeOrigin: true,
 }));
 
 app.use('/tasks', createProxyMiddleware({
-  target: 'http://localhost:3001',
+  target: TASK_SERVICE_URL,
   changeOrigin: true,
 }));
 

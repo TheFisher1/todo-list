@@ -7,19 +7,23 @@ services:
     volumes:
       - mongodb_data:/data/db
     environment:
-      - MONGO_INITDB_ROOT_USERNAME=admin
-      - MONGO_INITDB_ROOT_PASSWORD=password123
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
+    networks:
+      - app-network
 
   mongo-express:
     image: mongo-express:latest
     ports:
       - "8081:8081"
     environment:
-      - ME_CONFIG_MONGODB_ADMINUSERNAME=admin
-      - ME_CONFIG_MONGODB_ADMINPASSWORD=password123
-      - ME_CONFIG_MONGODB_URL=mongodb://admin:password123@mongodb:27017/
+      - ME_CONFIG_MONGODB_ADMINUSERNAME=${ME_CONFIG_MONGODB_ADMINUSERNAME}
+      - ME_CONFIG_MONGODB_ADMINPASSWORD=${ME_CONFIG_MONGODB_ADMINPASSWORD}
+      - ME_CONFIG_MONGODB_URL=${ME_CONFIG_MONGODB_URL}
     depends_on:
       - mongodb
+    networks:
+      - app-network
 
   api-gateway:
     build: 
@@ -31,6 +35,8 @@ services:
     depends_on:
       - user-service
       - task-service
+    networks:
+      - app-network
 
   user-service:
     build:
@@ -39,10 +45,12 @@ services:
       - "3002:3002"
     environment:
       - PORT=3002
-      - MONGODB_URI=mongodb://admin:password123@mongodb:27017/todo-users?authSource=admin
-      - JWT_SECRET=your-secret-key
+      - MONGODB_URI=${MONGODB_URI_USER_SERVICE}
+      - JWT_SECRET=${JWT_SECRET}
     depends_on:
       - mongodb
+    networks:
+      - app-network
 
   task-service:
     build:
@@ -51,9 +59,28 @@ services:
       - "3001:3001"
     environment:
       - PORT=3001
-      - MONGODB_URI=mongodb://admin:password123@mongodb:27017/todo-tasks?authSource=admin
+      - MONGODB_URI=${MONGODB_URI_TASK_SERVICE}
     depends_on:
       - mongodb
+    networks:
+      - app-network
+
+  frontend:
+    build:
+      context: ./frontend-service
+      dockerfile: Dockerfile
+    ports:
+      - "8080:80" 
+    environment:
+      - API_URL=http://api-gateway:3000
+      - USER_SERVICE_URL=http://user-service:3002/
+      - TASK_SERVICE_URL=http://task-service:3001/
+    depends_on:
+      - api-gateway
 
 volumes:
   mongodb_data: 
+
+networks:
+  app-network:
+    driver: bridge

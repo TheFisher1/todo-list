@@ -15,7 +15,12 @@ mongoose.connect(process.env.MONGODB_URI, {
   useUnifiedTopology: true,
 });
 
-app.use('/', taskRoutes);
+app.use('/tasks', taskRoutes);
+
+app.use(cors({
+    exposedHeaders: ["Authorization"],
+    origin: 'http://api-gateway:3000/'
+}))
 
 app.listen(PORT, () => {
   console.log(`Task Service running on port ${PORT}`);

@@ -11,14 +11,14 @@ export const AuthProvider = ({ children }) => {
   const fetchUserProfile = async () => {
     try {
       const response = await api.get('/users/profile');
-      setUser(response.data);
+      setUser({...response.data, id: response.data._id});
     } catch (error) {
       localStorage.removeItem('token');
     } finally {
       setLoading(false);
     }
   };
-  
+
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
