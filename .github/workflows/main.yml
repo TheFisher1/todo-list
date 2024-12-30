@@ -30,7 +30,7 @@ jobs:
             task-service/node_modules
             user-service/node_modules
           key: ${{ runner.os }}-node-modules-${{ hashFiles('**/package-lock.json') }}
-          
+
       - name: Install dependencies for all services
         run: |
           chmod +x ./scripts/install.sh && ./scripts/install.sh
