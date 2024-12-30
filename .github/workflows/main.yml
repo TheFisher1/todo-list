@@ -1,99 +1,69 @@
-name: CI Pipeline with Docker Compose
+name: CI Pipeline
 
 on:
   push:
     branches:
       - main
-    paths:
-      - '**/*.js'
-      - 'Dockerfile'
-      - 'docker-compose.yml'
-      - '**/package.json'
   pull_request:
     branches:
       - main
-    paths:
-      - '**/*.js'
-      - 'Dockerfile'
-      - 'docker-compose.yml'
-      - '**/package.json'
-      - '**.yml'
 
 jobs:
-  install_dependencies:
+  Clone-repo:
+    name: Clone down repo and install dependencies
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        subproject: [user-service, task-service, frontend-service, api-gateway]
+
+  Lint:
+    needs: [Clone-repo]
+    runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout repository
+        - name: Checkout code
+          uses: actions/checkout@v2
+  
+        - name: Install dependencies
+          run: npm run build
+  
+
+  Build:
+    runs-on: ubuntu-latest
+
+    services:
+      docker:
+        image: docker:20.10.7  
+        options: --privileged
+        ports:
+          - 2375:2375
+
+    steps:
+      - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '22'
-
-      - name: Cache dependencies
-        uses: actions/cache@v3
-        with:
-          path: |
-            ~/.npm
-            api-gateway/node_modules
-            frontend-service/node_modules
-            task-service/node_modules
-            user-service/node_modules
-          key: ${{ runner.os }}-node-modules-${{ hashFiles('**/package-lock.json') }}
-
-      - name: Install dependencies for all services
-        run: |
-          cd api-gateway && npm install
-          cd ../frontend-service && npm install
-          cd ../task-service && npm install
-          cd ../user-service && npm install
-
-  build_and_test:
-    needs: install_dependencies
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      - name: Set up Docker
+      - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
 
-      - name: Build and start containers using docker-compose
+      - name: Cache Docker layers
+        uses: actions/cache@v2
+        with:
+          path: ~/.docker/buildx-cache
+          key: ${{ runner.os }}-buildx-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-buildx-
+
+      - name: Set up Docker
         run: |
-          docker-compose -f docker-compose.yml build
+          sudo apt-get update
+          sudo apt-get install -y docker-compose
+
+      - name: Build and start services with Docker Compose
+        run: |
+          docker-compose -f docker-compose.yml build  
           docker-compose -f docker-compose.yml up -d
 
-      - name: List running Docker containers (debug)
-        run: docker ps
-
-      - name: Run tests
-        run: |
-          docker-compose exec api-gateway npm run test
-          docker-compose exec frontend-service npm run test
-          docker-compose exec task-service npm run test
-          docker-compose exec user-service npm run test
-
-      - name: Shut down docker-compose services
+      - name: Shut down Docker Compose services
         run: |
           docker-compose down
 
-  push_docker_images:
-    needs: build_and_test
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      - name: Log in to Docker Hub
-        uses: docker/login-action@v2
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-
-      - name: Push Docker images
-        run: |
-          docker-compose -f docker-compose.yml push api-gateway
-          docker-compose -f docker-compose.yml push frontend-service
-          docker-compose -f docker-compose.yml push task-service
-          docker-compose -f docker-compose.yml push user-service
