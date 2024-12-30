@@ -44,7 +44,7 @@ jobs:
       - name: Install dependencies for all services
         uses: actions/checkout@v4
       - run: |
-          chmod +x ./scripts/npmi.sh && ./scripts/npmi.sh
+          chmod +x ./scripts/install.sh && ./scripts/install.sh
 
   build_and_test:
     needs: install_dependencies
