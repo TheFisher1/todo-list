@@ -1,0 +1,17 @@
+{
+    "name": "todo-list",
+    "workspaces": [
+    "./user-service",
+    "./task-service",
+    "./frontend-service",
+    "./api-gateway"
+],
+"private": "true",
+  "scripts": {
+    "build:user-service": "cd ./user-service && npm run build",
+    "build:task-service": "cd ./task-service && npm run build",
+    "build:gateway": "cd ./api-gateway && npm run build",
+    "build:client": "cd ./frontend-service && npm run build",
+    "build": "npm run build:user-service && npm run build:task-service && npm run build:task-service && npm run build:client"
+  }
+}

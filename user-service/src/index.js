@@ -18,7 +18,6 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://admin:password123@localho
 app.use('/users', userRoutes);
 
 app.use(cors({
-    // origin: 'http://localhost:3000',
     origin: 'http://api-gateway:3000/',
     exposedHeaders: ["Authorization"]
 
