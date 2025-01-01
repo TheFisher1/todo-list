@@ -40,6 +40,14 @@ jobs:
             run: docker-compose build
             env:
               DOCKER_USERNAME: ${{secrets.DOCKER_USERNAME}}
+              MONGO_INITDB_ROOT_USERNAME: ${{secrets.MONGO_INITDB_ROOT_USERNAME}}
+              MONGO_INITDB_ROOT_PASSWORD: ${{secrets.MONGO_INITDB_ROOT_PASSWORD}}
+              ME_CONFIG_MONGODB_ADMINUSERNAME: ${{secrets.ME_CONFIG_MONGODB_ADMINUSERNAME}}
+              ME_CONFIG_MONGODB_ADMINPASSWORD: ${{secrets.ME_CONFIG_MONGODB_ADMINPASSWORD}}
+              ME_CONFIG_MONGODB_URL: ${{secrets.ME_CONFIG_MONGODB_URL}}
+              MONGODB_URI_USER_SERVICE: ${{secrets.MONGODB_URI_USER_SERVICE}}
+              JWT_SECRET: ${{secrets.JWT_SECRET}}
+              MONGODB_URI_TASK_SERVICE: ${{secrets.MONGODB_URI_TASK_SERVICE}}
             continue-on-error: false
 
           - name: Log in to Docker Hub

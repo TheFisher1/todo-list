@@ -1,7 +1,7 @@
 version: '3.8'
 services:
   mongodb:
-    image: fisher1o1/todo-list:mongo
+    image: ${DOCKER_USERNAME}/todo-list:mongo
     ports:
       - "27017:27017"
     volumes:
