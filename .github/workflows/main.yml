@@ -41,9 +41,9 @@ jobs:
             run: docker-compose build
             continue-on-error: false
           
-          - name: Tag docker services
-            run: |
-             chmod +x ./scripts/rename-services.sh && ./scripts/rename-services.sh ${{secrets.DOCKER_USERNAME}} latest
+        #   - name: Tag docker services
+        #     run: |
+        #      chmod +x ./scripts/rename-services.sh && ./scripts/rename-services.sh ${{secrets.DOCKER_USERNAME}} latest
     
           - name: Log in to Docker Hub
             uses: docker/login-action@v2
@@ -54,7 +54,7 @@ jobs:
     
           - name: Push Docker images to Docker Hub
             run: |
-              chmod +x ./scripts/push-images.sh && ./scripts/push-images.sh ${{secrets.DOCKER_USERNAME}} ${{github.sha}}
+               ${{secrets.DOCKER_USERNAME}} ${{github.sha}}
             
             continue-on-error: false
 #   install_dependencies:
