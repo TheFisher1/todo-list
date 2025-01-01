@@ -36,11 +36,12 @@ jobs:
               sudo chmod +x /usr/local/bin/docker-compose
               docker-compose --version
             continue-on-error: false
-    
           - name: Build application images
             run: docker-compose build
+            env:
+              DOCKER_USERNAME: ${{secrets.DOCKER_USERNAME}}
             continue-on-error: false
-          
+
           - name: Log in to Docker Hub
             uses: docker/login-action@v2
             with:
