@@ -19,7 +19,7 @@ jobs:
           env:
             SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
     Create-Image:
-        # needs: install_dependencies
+        needs: Snyk
         runs-on: ubuntu-latest
         steps:
           - name: Checkout repository
