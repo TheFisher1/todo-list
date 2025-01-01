@@ -9,7 +9,16 @@ on:
       - main
 
 jobs:
-    build_and_test:
+    Snyk:
+      runs-on: ubuntu-latest
+      steps:
+        - name: Checkout repository
+          uses: actions/checkout@v2
+        - name: Run Snyk
+          uses: snyk/actions/node@master
+          env:
+            SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+    Create-Image:
         # needs: install_dependencies
         runs-on: ubuntu-latest
         steps:
@@ -61,6 +70,7 @@ jobs:
             run: |
               chmod +x ./scripts/push-images.sh && ./scripts/push-images.sh fisher1o1 ${{github.sha}}
             continue-on-error: false
+
 #   install_dependencies:
 #     runs-on: ubuntu-latest
 #     steps:
