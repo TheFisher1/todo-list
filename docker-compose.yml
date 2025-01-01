@@ -1,7 +1,7 @@
 version: '3.8'
 services:
   mongodb:
-    image: fisher1o1/todo-list/mongo:latest
+    image: fisher1o1/todo-list:mongo
     ports:
       - "27017:27017"
     volumes:
@@ -13,7 +13,7 @@ services:
       - app-network
 
   mongo-express:
-    image: ${DOCKER_USERNAME}/todo-list/mongo-express:latest
+    image: ${DOCKER_USERNAME}/todo-list:mongo-express
     ports:
       - "8081:8081"
     environment:
@@ -26,7 +26,7 @@ services:
       - app-network
 
   api-gateway:
-    image: ${DOCKER_USERNAME}/todo-list/api-gateway:latest
+    image: ${DOCKER_USERNAME}/todo-list:api-gateway
     build: 
       context: ./api-gateway
     ports:
@@ -40,7 +40,7 @@ services:
       - app-network
 
   user-service:
-    image: ${DOCKER_USERNAME}/todo-list/user-service:latest
+    image: ${DOCKER_USERNAME}/todo-list:user-service
     build:
       context: ./user-service
     ports:
@@ -55,7 +55,7 @@ services:
       - app-network
 
   task-service:
-    image: ${DOCKER_USERNAME}/todo-list/task-service:latest
+    image: ${DOCKER_USERNAME}/todo-list:task-service
     build:
       context: ./task-service
     ports:
@@ -69,7 +69,7 @@ services:
       - app-network
 
   frontend:
-    image: ${DOCKER_USERNAME}/todo-list/frontend:latest
+    image: ${DOCKER_USERNAME}/todo-list:frontend
     build:
       context: ./frontend-service
       dockerfile: Dockerfile
