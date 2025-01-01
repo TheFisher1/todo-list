@@ -1,8 +1,8 @@
 #!/bin/bash
 
-#$2 - github commit
+#$1 - repo, $2 - github commit
 for SERVICE in $(docker-compose ps -q | xargs docker inspect --format '{{.Config.Image}}'); do
-
-      docker push $SERVICE:latest
-      docker push $SERVICE:$2
+      docker tag $SERVICE $1/todo-list/$SERVICE
+      docker push $1/todo-list/$SERVICE:latest
+      docker push $1/todo-list/$SERVICE:$2
 done
