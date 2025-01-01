@@ -7,6 +7,6 @@ for SERVICE in $(docker-compose ps -q | xargs docker inspect --format '{{.Config
 
       echo $SERVICE
 
-      docker push fisher1o1/todo-list:$SERVICE
-      docker push fisher1o1/todo-list:$SERVICE
+      docker push $SERVICE
+      docker push $SERVICE
 done
