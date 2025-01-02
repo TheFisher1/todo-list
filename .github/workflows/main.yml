@@ -40,10 +40,6 @@ jobs:
             name: trivy-report
             path: trivy-report.json
             retention-days: 30
-        - name: Scan repository
-          run: |
-            chmod +x scan-repo-tricvy && ./scan-repo-trivy ${{secrets.DOCKER_USERNAME}}/todo-list
-
 
     Create-Image:
         needs: [Snyk, Trivy]
