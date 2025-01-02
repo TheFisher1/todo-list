@@ -41,7 +41,7 @@ jobs:
             path: trivy-report.json
             retention-days: 30
 
-    sonarcloud:
+    Sonarcloud:
       name: SonarCloud Analysis
       runs-on: ubuntu-latest
       steps:
@@ -50,13 +50,16 @@ jobs:
             fetch-depth: 0
         - name: SonarCloud Scan
           uses: sonarsource/sonarcloud-github-action@master
+          with:
+            organisation ${{ secrets.SONAR_ORG }}  # Your SonarCloud organization key
+            projectKey: ${{ secrets.SONARQUBE_PROJECT_KEY}}  
           env:
-            GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
-            SONAR_TOKEN: ${{ secrets.SONARQUBE_TOKEN }}
+              GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
+              SONAR_TOKEN: ${{ secrets.SONARQUBE_TOKEN }}
             
 
     Create-Image:
-        needs: [Snyk, Trivy]
+        needs: [Snyk, Trivy, Sonarcloud]
         runs-on: ubuntu-latest
         steps:
           - name: Checkout repository
