@@ -16,7 +16,10 @@ jobs:
           uses: actions/checkout@v4
         - name: Run Git Leaks
           run: |
-           chmod +x ./scripts/security-check.sh && ./scripts/security-check.sh
+            curl -sSL https://github.com/zricethezav/gitleaks/releases/download/v8.10.0/gitleaks-linux-amd64 -o gitleaks
+            chmod +x gitleaks
+            ./gitleaks detect --source=.
+        #    chmod +x ./scripts/security-check.sh && ./scripts/security-check.sh
     Snyk:
       runs-on: ubuntu-latest
       steps:
