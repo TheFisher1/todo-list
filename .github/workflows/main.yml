@@ -41,19 +41,15 @@ jobs:
             path: trivy-report.json
             retention-days: 30
 
-    sonarcloud:
-      name: SonarCloud
-      runs-on: ubuntu-latest
-      steps:
-        - uses: actions/checkout@v3
+        - name: SonarCloud Scan
+          uses: SonarSource/sonarcloud-github-action@v1
           with:
-            fetch-depth: 0
-        - name: SonarQube Scan
-          uses: sonarsource/sonarqube-scan-action@master
-          env:
-            SONAR_TOKEN: ${{secrets.SONARQUBE_TOKEN}}
-            SONAR_HOST_URL: ${{ 'http://sonarcloud.io '}}
-        
+              organization: ${{ secrets.SONAR_ORG }}  # Your SonarCloud organization key
+              projectKey: ${{ secrets.SONAR_PROJECT_KEY }}  # Your SonarCloud project key
+            env:
+              GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # GitHub token for authentication
+              SONAR_TOKEN: ${{ secrets.SONARQUBE_TOKEN }}  # SonarCloud token for authentication
+              SONAR_HOST_URL: "https://sonarcloud.io"
 
     Create-Image:
         needs: [Snyk, Trivy]
