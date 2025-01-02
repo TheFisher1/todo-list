@@ -49,13 +49,12 @@ jobs:
           with:
             fetch-depth: 0
         - name: SonarCloud Scan
-          uses: sonarsource/sonarcloud-github-action@master
-          with: |
-              organization: ${{ secrets.SONARQUBE_ORG }}
-              projectKey: ${{ secrets.SONARQUBE_PROJECT_KEY }}
+          uses: sonarsource/sonarcloud-github-action@v1
           env:
               GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
               SONAR_TOKEN: ${{ secrets.SONARQUBE_TOKEN }}
+              sonar.organization: ${{secrets.SONARQUBE_ORG}}
+              sonar.projectKey: ${{secrets.SONARQUBE_PROJECT_KEY}}
 
     Create-Image:
         needs: [Snyk, Trivy, Sonarcloud]
