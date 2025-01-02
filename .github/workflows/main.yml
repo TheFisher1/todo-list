@@ -12,14 +12,12 @@ jobs:
     GitLeaks:
       runs-on: ubuntu-latest
       steps:
-        - name: Checkout repository
-          uses: actions/checkout@v4
-        - name: Run Git Leaks
-          run: |
-            curl -sSL https://github.com/zricethezav/gitleaks/releases/download/v8.10.0/gitleaks-linux-amd64 -o gitleaks
-            chmod +x gitleaks
-            ./gitleaks detect --source=.
-        #    chmod +x ./scripts/security-check.sh && ./scripts/security-check.sh
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     Snyk:
       runs-on: ubuntu-latest
       steps:
