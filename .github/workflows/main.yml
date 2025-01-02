@@ -57,7 +57,7 @@ jobs:
             -Dsonar.organization=${{ secrets.SONARQUBE_ORG }} \
             -Dsonar.projectKey=${{ secrets.SONARQUBE_PROJECT_KEY }} \
             -Dsonar.login=${{ secrets.SONARQUBE_TOKEN }}
-          env:
+            env:
               GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
               SONAR_TOKEN: ${{ secrets.SONARQUBE_TOKEN }}
               sonar.organization: ${{secrets.SONARQUBE_ORG}}
