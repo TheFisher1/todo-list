@@ -45,18 +45,17 @@ jobs:
       name: SonarCloud Analysis
       runs-on: ubuntu-latest
       steps:
-        - uses: actions/checkout@v3
-          with:
-            fetch-depth: 0
-        - name: SonarCloud Scan
-          uses: sonarsource/sonarcloud-github-action@v1
-          env:
-              GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
-              SONAR_TOKEN: ${{ secrets.SONARQUBE_TOKEN }}
-              sonar.organization: ${{secrets.SONARQUBE_ORG}}
-              sonar.projectKey: ${{secrets.SONARQUBE_PROJECT_KEY}}
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: SonarCloud Scan
+        uses: sonarsource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONARQUBE_TOKEN }}
 
     Create-Image:
+        name: Create Image
         needs: [Snyk, Trivy, Sonarcloud]
         runs-on: ubuntu-latest
         steps:
