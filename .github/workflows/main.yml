@@ -13,13 +13,40 @@ jobs:
       runs-on: ubuntu-latest
       steps:
         - name: Checkout repository
-          uses: actions/checkout@v2
+          uses: actions/checkout@v4
         - name: Run Snyk
           uses: snyk/actions/node@master
           env:
             SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+
+    Trivy:
+      runs-on: ubuntu-latest
+      steps:
+        - name: Checkout repository
+          uses: actions/checkout@v4
+
+        - name: Generate Trivy Vulnerability Report
+          uses: aquasecurity/trivy-action@master
+          with:
+            scan-type: "fs"
+            output: trivy-report.json
+            format: json
+            scan-ref: .
+            exit-code: 0
+  
+        - name: Upload Vulnerability Scan Results
+          uses: actions/upload-artifact@v4
+          with:
+            name: trivy-report
+            path: trivy-report.json
+            retention-days: 30
+        - name: Scan repository
+          run: |
+            chmod +x scan-repo-tricvy && ./scan-repo-trivy ${{secrets.DOCKER_USERNAME}}/todo-list
+
+
     Create-Image:
-        needs: Snyk
+        needs: [Snyk, Trivy]
         runs-on: ubuntu-latest
         steps:
           - name: Checkout repository
