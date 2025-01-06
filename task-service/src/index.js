@@ -1,8 +1,7 @@
-import 'dotenv/config';
-import express from 'express';
-import mongoose from 'mongoose';
-import cors from 'cors';
-import taskRoutes from './routes/taskRoutes.js';
+const express = require('express');
+const cors = require('cors');
+require('./db/db');
+const taskRoutes = require('./routes/taskRoutes');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -10,17 +9,20 @@ const PORT = process.env.PORT || 3001;
 app.use(cors());
 app.use(express.json());
 
-mongoose.connect(process.env.MONGODB_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
-
 app.use('/tasks', taskRoutes);
 
 app.use(cors({
     exposedHeaders: ["Authorization"],
     origin: 'http://api-gateway:3000/'
-}))
+}));
+
+app.use((err, req, res, next) => {
+  if (err.statusCode) {
+    return res.status(err.statusCode).json({ error: err.message });
+  }
+  console.error(err);
+  res.status(500).json({ error: 'Internal server error' });
+});
 
 app.listen(PORT, () => {
   console.log(`Task Service running on port ${PORT}`);

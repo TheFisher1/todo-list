@@ -1,19 +1,14 @@
 require('dotenv').config();
 const express = require('express');
-const mongoose = require('mongoose');
 const cors = require('cors');
 const userRoutes = require('./routes/userRoutes');
+require('./db/db');
 
 const app = express();
 const PORT = process.env.PORT || 3002;
 
 app.use(cors());
 app.use(express.json());
-
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://admin:password123@localhost:27017/todo-users?authSource=admin', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
 
 app.use('/users', userRoutes);
 
@@ -22,6 +17,14 @@ app.use(cors({
     exposedHeaders: ["Authorization"]
 
 }));
+
+app.use((err, req, res, next) => {
+  if (err.statusCode) {
+    return res.status(err.statusCode).json({ error: err.message });
+  }
+  console.error(err);
+  res.status(500).json({ error: 'Internal server error' });
+});
 
 app.listen(PORT, () => {
   console.log(`User Service running on port ${PORT}`);

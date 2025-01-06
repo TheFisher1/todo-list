@@ -1,17 +1,21 @@
 {
   "name": "task-service",
   "version": "1.0.0",
-  "type": "module",
   "main": "src/index.js",
   "scripts": {
     "start": "node src/index.js",
-    "dev": "nodemon src/index.js"
+    "dev": "nodemon src/index.js",
+    "migrate": "knex migrate:latest --knexfile src/db/knexfile.js",
+    "migrate:rollback": "knex migrate:rollback --knexfile src/db/knexfile.js"
   },
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.17.1",
-    "mongoose": "^6.0.12"
+    "mongoose": "^6.0.12",
+    "knex": "^3.1.0",
+    "objection": "^3.1.4",
+    "pg": "^8.11.3"
   },
   "devDependencies": {
     "nodemon": "^2.0.14"

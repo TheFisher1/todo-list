@@ -1,26 +1,40 @@
-import mongoose from 'mongoose';
+const { Model } = require('objection');
 
-const taskSchema = new mongoose.Schema({
-  userId: {
-    type: String,
-    required: true,
-  },
-  title: {
-    type: String,
-    required: true,
-  },
-  description: {
-    type: String,
-  },
-  status: {
-    type: String,
-    enum: ['pending', 'completed'],
-    default: 'pending',
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now,
-  },
-});
+class Task extends Model {
+  static get tableName() {
+    return 'tasks';
+  }
 
-export const Task = mongoose.model('Task', taskSchema); 
+  static get jsonSchema() {
+    return {
+      type: 'object',
+      required: ['title', 'userId'],
+
+      properties: {
+        id: { type: 'integer' },
+        title: { type: 'string', minLength: 1 },
+        description: { type: 'string' },
+        completed: { type: 'boolean', default: false },
+        userId: { type: 'integer' },
+        created_at: { type: 'string' },
+        updated_at: { type: 'string' }
+      }
+    };
+  }
+
+  static get relationMappings() {
+    const User = require('./User');
+    return {
+      user: {
+        relation: Model.BelongsToOneRelation,
+        modelClass: User,
+        join: {
+          from: 'tasks.userId',
+          to: 'users.id'
+        }
+      }
+    };
+  }
+}
+
+module.exports = Task; 
