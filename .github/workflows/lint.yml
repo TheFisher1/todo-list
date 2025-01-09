@@ -19,6 +19,6 @@ jobs:
       - uses: sibiraj-s/action-eslint@v3
         with:
           working-directory: ${{ inputs.working-directory }}
-          eslint-args: '--config=.eslintrc.json'
+          eslint-args: '--config=.eslintrc.json  --output-file=eslint-report-${{ inputs.working-directory }}-${{ github.sha }}.json'
           extensions: 'js'
           annotations: true

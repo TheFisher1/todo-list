@@ -37,11 +37,11 @@ jobs:
       - uses: gitleaks/gitleaks-action@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Upload Gitleaks Report
+      - name: Upload Gitleaks report
         uses: actions/upload-artifact@v3
         with:
           name: gitleaks-report-${{ github.sha }}
-          path: gitleaks-report.json       
+          path: gitleaks-report.json
   
   Snyk:
       runs-on: ubuntu-latest
