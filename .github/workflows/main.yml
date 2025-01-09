@@ -184,7 +184,7 @@ jobs:
 
       - name: update deployments
         run: |
-          chmod +x ./scripts/update-image.sh &&
+          chmod +x ./scripts/update-image.sh
           sudo ./scripts/update-image.sh frontend &&
           sudo ./scripts/update-image.sh user-service &&
           sudo ./scripts/update-image.sh task-service
