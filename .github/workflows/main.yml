@@ -22,18 +22,16 @@ jobs:
     Lint:
       runs-on: ubuntu-latest
       steps:
-        - name: Checkout repository
-          uses: actions/checkout@v4
-        - name: Set up Node.js
-          uses: actions/setup-node@v3
+        - uses: actions/checkout@v4
+        - uses: actions/setup-node@v4
           with:
-            node-version: "22"
-        - name: Install Eslint
-          run: |
-            npm install -g eslint
-        - name: Run Lint
-          run: |
-            chmod +x ./scripts/lint.sh && ./scripts/lint.sh
+            node-version: '20'
+        - run: npm ci
+        - uses: sibiraj-s/action-eslint@v3
+          with:
+            eslint-args: '--ignore-path=.gitignore --quiet'
+            extensions: 'js,jsx,ts,tsx'
+            annotations: true
 
     Snyk:
       runs-on: ubuntu-latest
