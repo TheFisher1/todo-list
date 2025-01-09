@@ -149,31 +149,42 @@ jobs:
             push: true
             tags: ${{ secrets.DOCKER_USERNAME }}/${{ matrix.service }}:${{ github.sha }}
 
-    # Deploy:
-    #   runs-on: ubuntu-latest
-    #   needs: Docker-Image
-    #   steps:
-    #   - name: Install Kubectl
-    #     run: |
-    #       curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-    #       sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
-    #   - name: Install AWS
-    #     run: |
-    #       curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-    #       unzip awscliv2.zip
-    #       sudo ./aws/install
-
-    #   - name: Configure AWS
-    #     run: |
-    #       aws configure set aws_access_key_id ${{secrets.AWS_ACCESS_KEY_ID}}
-    #       aws configure set aws_secret_access_key ${{secrets.AWS_SECRET_ACCESS_KEY}}
-    #       aws configure set region ${{secrets.AWS_REGION}}
-
-    #   - name: Install Eksctl
-    #     run: |
-    #       curl --silent --location "https://github.com/eksctl-io/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
-    #       sudo mv /tmp/eksctl /usr/local/bin
+    Deploy:
+      name: Deploy to EKS
+      runs-on: ubuntu-latest
+      needs: Docker-Image
+      steps:
+      - name: Install Kubectl
+        run: |
+          curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+          sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
       
-    #   - name: update kubeconfig
-    #     run: |
-    #       aws eks update-kubeconfig --name ${{secrets.EKS_CLUSTER_NAME}} --region ${{secrets.AWS_REGION}}
+      - name: Install AWS
+        run: |
+          curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+          unzip awscliv2.zip
+          sudo ./aws/install
+
+      - name: Configure AWS
+        run: |
+          aws configure set aws_access_key_id ${{secrets.AWS_ACCESS_KEY}}
+          aws configure set aws_secret_access_key ${{secrets.AWS_SECRET_ACCESS_KEY}}
+          aws configure set region ${{secrets.AWS_REGION}}
+
+      # - name: Install Eksctl
+      #   run: |
+      #     curl --silent --location "https://github.com/eksctl-io/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
+      #     sudo mv /tmp/eksctl /usr/local/bin
+      
+      - name: update kubeconfig and change context
+        run: |
+          aws eks update-kubeconfig --name ${{secrets.EKS_CLUSTER_NAME}} --region ${{secrets.AWS_REGION}}
+          kubectl config use-context ${{secrets.EKS_CLUSTER_NAME}}
+
+      - uses: actions/checkout@v4
+
+      - name: update deployments
+        run: |
+          ./scripts/update-image.sh frontend
+          ./scripts/update-image.sh user-service
+          ./scripts/update-image.sh task-service

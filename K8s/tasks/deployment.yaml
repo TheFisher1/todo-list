@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: task-service
-          image: fisher1o1/todo-list:task-service-v1.0.44
+          image: ${DOCKER_USERNAME}/task-service:${GITHUB_SHA}
           ports:
             - containerPort: 3001
           env:
