@@ -29,7 +29,20 @@ jobs:
         - run: npm i
         - uses: sibiraj-s/action-eslint@v3
           with:
-            eslint-args: '--ignore-path=.gitignore --quiet'
+            working-directory: ./task-service
+            eslint-args: '--config=.eslintrc.json'
+            extensions: 'js'
+            annotations: true
+        - uses: sibiraj-s/action-eslint@v3
+          with:
+            working-directory: ./user-service
+            eslint-args: '--config=.eslintrc.json'
+            extensions: 'js'
+            annotations: true
+        - uses: sibiraj-s/action-eslint@v3
+          with:
+            working-directory: ./frontend-service
+            eslint-args: '--config=.eslintrc.json'
             extensions: 'js,jsx'
             annotations: true
 
