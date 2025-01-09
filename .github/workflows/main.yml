@@ -23,28 +23,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-    # Lint:
-    #   runs-on: ubuntu-latest
-    #   needs: Lint-Frontend
-    #   steps:
-    #     - uses: actions/checkout@v4
-    #     - uses: actions/setup-node@v4
-    #       with:
-    #         node-version: '22'
-    #     - run: npm i
-    #     - uses: sibiraj-s/action-eslint@v3
-    #       with:
-    #         working-directory: ./task-service
-    #         eslint-args: '--config=.eslintrc.json'
-    #         extensions: 'js'
-    #         annotations: true
-    #     - uses: sibiraj-s/action-eslint@v3
-    #       with:
-    #         working-directory: ./user-service
-    #         eslint-args: '--config=.eslintrc.json'
-    #         extensions: 'js'
-    #         annotations: true
-
     Snyk:
       runs-on: ubuntu-latest
       needs: GitLeaks
@@ -97,6 +75,7 @@ jobs:
 
     Tests:
       runs-on: ubuntu-latest
+      needs: Sonarcloud
       services:
         postgres:
           image: postgres:16
@@ -114,9 +93,11 @@ jobs:
       steps:
         - name: Checkout repository
           uses: actions/checkout@v4
+
         - name: Install dependencies
           run: |
             cd ./task-service && npm i
+
         - name: Run migrations
           run: |
             cd ./task-service && npm run migrate:test
@@ -125,6 +106,7 @@ jobs:
             TEST_DB_USER: test_user
             TEST_DB_PASSWORD: test_password
             TEST_DB_NAME: test_todo_list
+
         - name: Run tests
           run: |
             cd ./task-service && npm run migrate:test
@@ -137,6 +119,7 @@ jobs:
     Docker-Image:
       name: Build Docker Image and push it to Docker Hub
       runs-on: ubuntu-latest
+      needs: Tests
       strategy:
         matrix:
           service:
@@ -146,15 +129,19 @@ jobs:
       steps:
         - name: Checkout code
           uses: actions/checkout@v2
+
         - name: Set up QEMU
           uses: docker/setup-qemu-action@v3
+
         - name: Set up Docker Buildx
           uses: docker/setup-buildx-action@v3
+
         - name: Login to Docker Hub
           uses: docker/login-action@v3
           with:
             username: ${{ secrets.DOCKER_USERNAME }}
             password: ${{ secrets.DOCKER_PASSWORD }}
+
         - name: Build and push Docker image
           uses: docker/build-push-action@v6
           with:
@@ -162,82 +149,31 @@ jobs:
             push: true
             tags: ${{ secrets.DOCKER_USERNAME }}/${{ matrix.service }}:${{ github.sha }}
 
-    # Create-Image:
-    #     name: Create Image
-    #     needs: Sonarcloud
-    #     runs-on: ubuntu-latest
-    #     steps:
-    #       - name: Checkout repository
-    #         uses: actions/checkout@v2
-    #         continue-on-error: false
-    
-    #       - name: Set up Node.js
-    #         uses: actions/setup-node@v3
-    #         with:
-    #           node-version: "22"
-    #           registry-url: "https://registry.npmjs.org"
-    #         continue-on-error: false
+    # Deploy:
+    #   runs-on: ubuntu-latest
+    #   needs: Docker-Image
+    #   steps:
+    #   - name: Install Kubectl
+    #     run: |
+    #       curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+    #       sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+    #   - name: Install AWS
+    #     run: |
+    #       curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+    #       unzip awscliv2.zip
+    #       sudo ./aws/install
 
-    #       - name: Install Docker
-    #         run: |
-    #           curl -fsSL https://get.docker.com -o get-docker.sh
-    #           sudo sh get-docker.sh
-    #         continue-on-error: false
-    
-    #       - name: Install Docker Compose
-    #         run: |
-    #           sudo curl -L "https://github.com/docker/compose/releases/download/v2.3.3/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-    #           sudo chmod +x /usr/local/bin/docker-compose
-    #           docker-compose --version
-    #         continue-on-error: false
-    #       - name: Build application images
-    #         run: docker-compose build --platform linux/amd64
-    #         env:
-    #           DOCKER_USERNAME: ${{secrets.DOCKER_USERNAME}}
-    #           MONGO_INITDB_ROOT_USERNAME: ${{secrets.MONGO_INITDB_ROOT_USERNAME}}
-    #           MONGO_INITDB_ROOT_PASSWORD: ${{secrets.MONGO_INITDB_ROOT_PASSWORD}}
-    #           ME_CONFIG_MONGODB_ADMINUSERNAME: ${{secrets.ME_CONFIG_MONGODB_ADMINUSERNAME}}
-    #           ME_CONFIG_MONGODB_ADMINPASSWORD: ${{secrets.ME_CONFIG_MONGODB_ADMINPASSWORD}}
-    #           ME_CONFIG_MONGODB_URL: ${{secrets.ME_CONFIG_MONGODB_URL}}
-    #           MONGODB_URI_USER_SERVICE: ${{secrets.MONGODB_URI_USER_SERVICE}}
-    #           JWT_SECRET: ${{secrets.JWT_SECRET}}
-    #           MONGODB_URI_TASK_SERVICE: ${{secrets.MONGODB_URI_TASK_SERVICE}}
-    #         continue-on-error: false
+    #   - name: Configure AWS
+    #     run: |
+    #       aws configure set aws_access_key_id ${{secrets.AWS_ACCESS_KEY_ID}}
+    #       aws configure set aws_secret_access_key ${{secrets.AWS_SECRET_ACCESS_KEY}}
+    #       aws configure set region ${{secrets.AWS_REGION}}
 
-    #       - name: Log in to Docker Hub
-    #         uses: docker/login-action@v2
-    #         with:
-    #           username: ${{ secrets.DOCKER_USERNAME }}
-    #           password: ${{ secrets.DOCKER_PASSWORD }}
-    #         continue-on-error: false
-    
-    #       - name: Push Docker images to Docker Hub
-    #         run: |
-    #           chmod +x ./scripts/push-images.sh && ./scripts/push-images.sh fisher1o1 ${{github.sha}}
-    #         continue-on-error: false
-
-#   install_dependencies:
-#     runs-on: ubuntu-latest
-#     steps:
-#       - name: Checkout repository
-#         uses: actions/checkout@v2
-
-#       - name: Set up Node.js
-#         uses: actions/setup-node@v2
-#         with:
-#           node-version: '22'
-
-#       - name: Cache dependencies
-#         uses: actions/cache@v3
-#         with:
-#           path: |
-#             ~/.npm
-#             api-gateway/node_modules
-#             frontend-service/node_modules
-#             task-service/node_modules
-#             user-service/node_modules
-#           key: ${{ runner.os }}-node-modules-${{ hashFiles('**/package-lock.json') }}
-
-#       - name: Install dependencies for all services
-#         run: |
-#           chmod +x ./scripts/install.sh && ./scripts/install.sh
+    #   - name: Install Eksctl
+    #     run: |
+    #       curl --silent --location "https://github.com/eksctl-io/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
+    #       sudo mv /tmp/eksctl /usr/local/bin
+      
+    #   - name: update kubeconfig
+    #     run: |
+    #       aws eks update-kubeconfig --name ${{secrets.EKS_CLUSTER_NAME}} --region ${{secrets.AWS_REGION}}

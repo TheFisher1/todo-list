@@ -1,18 +1,30 @@
 import express, { json } from 'express';
 import cors from 'cors';
-import taskRoutes from './routes/taskRoutes'
-import { Model } from 'objection';
-import Knex from 'knex';
-import { development } from './db/knexfile';
+import { router } from './routes/taskRoutes.js';
 
-const app = express();
-const PORT = process.env.PORT;
+import Knex from 'knex';
+import { Model } from 'objection';
+import { development } from './db/knexfile.js';
+import 'dotenv/config';
+
+console.log(process.env.DATABASE_URL);
 
 const knex = Knex(development);
 Model.knex(knex);
 
+knex.raw('SELECT 1')
+  .then(() => {
+    console.log('Database connected successfully');
+  })
+  .catch((err) => {
+    console.log('Database connection failed:', err);
+  });
+
+const app = express();
+const PORT = process.env.PORT;
+
 app.use(json());
-app.use('/tasks', taskRoutes);
+app.use('/tasks', router);
 
 app.use(cors({
     origin: '*',

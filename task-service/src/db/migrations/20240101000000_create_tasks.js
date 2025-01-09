@@ -4,7 +4,7 @@ export function up(knex) {
     table.string('title').notNullable();
     table.string('description');
     table.string('status').defaultTo('pending');
-    table.integer('userId').notNullable();
+    table.integer('user_id').notNullable();
     table.timestamps(true, true);
   });
 }

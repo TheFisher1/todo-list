@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { Task } from '../models/Task';
+import { Task } from '../models/Task.js';
 
 const router = Router();
 
@@ -10,7 +10,7 @@ router.get('/', async (req, res) => {
 router.get('/user/:userId', async (req, res) => {
   try {
     const tasks = await Task.query()
-      .where('userId', req.params.userId)
+      .where('user_id', req.params.userId)
       .orderBy('created_at', 'desc');
 
     res.json(tasks);
@@ -69,4 +69,4 @@ router.delete('/:id', async (req, res) => {
   }
 });
 
-export default router; 
+export { router }; 

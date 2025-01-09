@@ -1,18 +1,18 @@
+import { knexSnakeCaseMappers } from 'objection';
+import 'dotenv/config';
+
 const development = {
-  client: 'pg',
-  connection: {
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME
-  },
+  client: 'postgresql',
+  connection: process.env.DATABASE_URL,
   migrations: {
-    directory: './migrations'
-  }
+    directory: './migrations',
+    tableName: 'knex_migrations_tasks'
+  },
+  ...knexSnakeCaseMappers()
 };
 
 const test = {
-  client: 'pg',
+  client: 'postgresql',
   connection: {
     host: process.env.TEST_DB_HOST,
     user: process.env.TEST_DB_USER,
@@ -21,7 +21,11 @@ const test = {
   },
   migrations: {
     directory: './migrations'
-  }
+  },
+  history: {
+    tableName: 'knex_migrations_tasks'
+  },
+  ...knexSnakeCaseMappers()
 };
 
 export {

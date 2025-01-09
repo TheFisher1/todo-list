@@ -15,9 +15,9 @@ export class Task extends Model {
         description: { type: 'string' },
         status: { type: 'string', default: 'pending' },
         userId: { type: 'integer' },
-        created_at: { type: 'string' },
-        updated_at: { type: 'string' }
+        createdAt: { type: 'string' },
+        updatedAt: { type: 'string' }
       }
     };
   }
-} 
+}
