@@ -105,7 +105,7 @@ jobs:
         - name: Install dependencies
           run: |
             cd ./task-service && npm i &&
-            cd ../user-service && npm i
+            cd ../user-service && npm i && cd ..
         - name: run migrations
           run: |
             npm run migrate
