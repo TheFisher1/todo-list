@@ -104,14 +104,18 @@ jobs:
           uses: actions/checkout@v4
         - name: Install dependencies
           run: |
-            cd ./task-service && npm i &&
-            cd ../user-service && npm i && cd ..
-        - name: run migrations
+            cd ./task-service && npm i
+        - name: Run migrations
           run: |
-            npm run migrate
-        - name: run tests
+            cd ./task-service && npm run migrate
+          env:
+            TEST_DB_HOST: localhost
+            TEST_DB_USER: test_user
+            TEST_DB_PASSWORD: test_password
+            TEST_DB_NAME: test_todo_list
+        - name: Run tests
           run: |
-            npm run test
+            cd ./task-service && npm run test
           env:
             TEST_DB_HOST: localhost
             TEST_DB_USER: test_user

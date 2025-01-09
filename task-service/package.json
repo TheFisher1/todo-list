@@ -5,8 +5,9 @@
   "scripts": {
     "start": "node src/index.js",
     "dev": "nodemon src/index.js",
-    "migrate": "knex migrate:latest --knexfile src/db/knexfile.js",
-    "migrate:rollback": "knex migrate:rollback --knexfile src/db/knexfile.js",
+    "migrate": "knex migrate:latest --knexfile src/db/knexfile.js --env development",
+    "migrate:test": "knex migrate:latest --knexfile src/db/knexfile.js --env test",
+    "migrate:rollback": "knex migrate:rollback --knexfile src/db/knexfile.js --env development",
     "test": "NODE_OPTIONS=--experimental-vm-modules jest --runInBand"
   },
   "dependencies": {
