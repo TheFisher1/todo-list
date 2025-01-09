@@ -9,12 +9,11 @@ class User extends Model {
     return {
       type: 'object',
       required: ['email', 'password'],
-
       properties: {
         id: { type: 'integer' },
         email: { type: 'string', format: 'email' },
         password: { type: 'string', minLength: 6 },
-        name: { type: 'string', minLength: 1 },
+        name: { type: 'string' },
         created_at: { type: 'string' },
         updated_at: { type: 'string' }
       }

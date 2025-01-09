@@ -1,6 +1,5 @@
 import { Model } from 'objection';
 import Knex from 'knex';
-import knexConfig from './knexfile';
 
 console.log('Database URL:', process.env.DATABASE_URL);
 

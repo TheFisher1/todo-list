@@ -1,10 +1,12 @@
 import { Router } from 'express';
 import { hash, compare } from 'bcrypt';
-import { sign } from 'jsonwebtoken';
-import User from '../models/User';
-const router = Router();
-import auth from '../middleware/auth';
+import jwt from 'jsonwebtoken';
+import User from '../models/User.js';
+
+import auth from '../middleware/auth.js';
 import 'dotenv/config';
+
+const router = Router();
 
 router.post('/register', async (req, res) => {
   try {
@@ -52,7 +54,7 @@ router.post('/login', async (req, res) => {
 
     console.log("user", process.env.JWT_SECRET);
 
-    const token = sign({ userId: user.id, name: user.name, email: user.email },
+    const token = jwt.sign({ userId: user.id, name: user.name, email: user.email },
       process.env.JWT_SECRET,
       { expiresIn: '24h' }
     );
@@ -73,7 +75,5 @@ router.get('/profile', auth, async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 });
-
-
 
 export default router; 
