@@ -16,22 +16,11 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - run: npm i
-      - uses: "./.github/workflows/lint.yml"
-        with:
-          working-directory: ./frontend
-
-      - uses: "./.github/workflows/lint.yml"
-        with:
-          working-directory: ./user-service
-
-      - uses: "./.github/workflows/lint.yml"
-        with:
-          working-directory: ./task-service
-
-      - uses: "./.github/workflows/lint.yml"
-        with:
-          working-directory: ./api-gateway
+      - run: npm install
+      - run: npm run lint --prefix ./frontend
+      - run: npm run lint --prefix ./user-service
+      - run: npm run lint --prefix ./task-service
+      - run: npm run lint --prefix ./api-gateway
       
   GitLeaks:
     runs-on: ubuntu-latest
