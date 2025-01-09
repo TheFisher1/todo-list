@@ -2,13 +2,14 @@
   "name": "task-service",
   "version": "1.0.0",
   "main": "src/index.js",
+  "type": "module",
   "scripts": {
     "start": "node src/index.js",
     "dev": "nodemon src/index.js",
     "migrate": "knex migrate:latest --knexfile src/db/knexfile.js --env development",
     "migrate:test": "knex migrate:latest --knexfile src/db/knexfile.js --env test",
     "migrate:rollback": "knex migrate:rollback --knexfile src/db/knexfile.js --env development",
-    "test": "NODE_OPTIONS=--experimental-vm-modules jest --runInBand"
+    "test": "NODE_ENV=test NODE_OPTIONS=--experimental-vm-modules jest --runInBand --detectOpenHandles"
   },
   "dependencies": {
     "cors": "^2.8.5",
@@ -25,6 +26,7 @@
   "jest": {
     "testEnvironment": "node",
     "transform": {},
-    "extensionsToTreatAsEsm": [".js"]
+    "extensionsToTreatAsEsm": [".js"],
+    "setupFiles": ["<rootDir>/tests/setup.js"]
   }
 }

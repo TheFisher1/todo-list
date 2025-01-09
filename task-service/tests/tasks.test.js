@@ -28,4 +28,17 @@ describe('Task Integration Tests', () => {
     expect(task.title).toBe('Test Task');
     expect(task.status).toBe('pending');
   });
+
+  it('should update task status', async () => {
+    const task = await Task.query().insert({
+      title: 'Test Task',
+      userId: 1,
+      status: 'pending'
+    });
+
+    const updated = await Task.query()
+      .patchAndFetchById(task.id, { status: 'completed' });
+
+    expect(updated.status).toBe('completed');
+  });
 }); 

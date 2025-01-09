@@ -107,7 +107,7 @@ jobs:
             cd ./task-service && npm i
         - name: Run migrations
           run: |
-            cd ./task-service && npm run migrate
+            cd ./task-service && npm run migrate:test
           env:
             TEST_DB_HOST: localhost
             TEST_DB_USER: test_user
@@ -115,7 +115,7 @@ jobs:
             TEST_DB_NAME: test_todo_list
         - name: Run tests
           run: |
-            cd ./task-service && npm run test
+            cd ./task-service && npm run migrate:test
           env:
             TEST_DB_HOST: localhost
             TEST_DB_USER: test_user
