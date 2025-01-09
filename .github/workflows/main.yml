@@ -83,6 +83,40 @@ jobs:
           ORG: ${{secrets.SONARQUBE_ORG}}
           PROJECT_KEY: ${{secrets.SONARQUBE_PROJECT_KEY}}
 
+    Tests:
+      runs-on: ubuntu-latest
+      services:
+        postgres:
+          image: postgres:16
+          env:
+            POSTGRES_USER: test_user
+            POSTGRES_PASSWORD: test_password
+            POSTGRES_DB: test_todo_list
+          ports:
+            - 5432:5432
+          options: >-
+            --health-cmd pg_isready
+            --health-interval 10s
+            --health-timeout 5s
+            --health-retries 5
+      steps:
+        - name: Checkout repository
+          uses: actions/checkout@v4
+        - name: Install dependencies
+          run: |
+            npm i
+        - name: run migrations
+          run: |
+            npm run migrate
+        - name: run tests
+          run: |
+            npx run test
+          env:
+            TEST_DB_HOST: localhost
+            TEST_DB_USER: test_user
+            TEST_DB_PASSWORD: test_password
+            TEST_DB_NAME: test_todo_list
+
     Create-Image:
         name: Create Image
         needs: Sonarcloud
@@ -112,7 +146,7 @@ jobs:
               docker-compose --version
             continue-on-error: false
           - name: Build application images
-            run: docker-compose build
+            run: docker-compose build --platform linux/amd64
             env:
               DOCKER_USERNAME: ${{secrets.DOCKER_USERNAME}}
               MONGO_INITDB_ROOT_USERNAME: ${{secrets.MONGO_INITDB_ROOT_USERNAME}}

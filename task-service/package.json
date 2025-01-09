@@ -6,7 +6,8 @@
     "start": "node src/index.js",
     "dev": "nodemon src/index.js",
     "migrate": "knex migrate:latest --knexfile src/db/knexfile.js",
-    "migrate:rollback": "knex migrate:rollback --knexfile src/db/knexfile.js"
+    "migrate:rollback": "knex migrate:rollback --knexfile src/db/knexfile.js",
+    "test": "NODE_OPTIONS=--experimental-vm-modules jest --runInBand"
   },
   "dependencies": {
     "cors": "^2.8.5",
@@ -19,5 +20,10 @@
   },
   "devDependencies": {
     "nodemon": "^2.0.14"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "transform": {},
+    "extensionsToTreatAsEsm": [".js"]
   }
 }

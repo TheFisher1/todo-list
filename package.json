@@ -2,6 +2,7 @@
     "name": "todo-list",
 "private": "true",
   "scripts": {
+    "test": "cd ./task-service && npm run test && cd ../user-service && npm run test",
     "build:user-service": "cd ./user-service && npm run build",
     "build:task-service": "cd ./task-service && npm run build",
     "build:gateway": "cd ./api-gateway && npm run build",
