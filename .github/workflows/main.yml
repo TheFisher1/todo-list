@@ -179,7 +179,6 @@ jobs:
       - name: update kubeconfig and change context
         run: |
           aws eks update-kubeconfig --name ${{secrets.EKS_CLUSTER_NAME}} --region ${{secrets.AWS_REGION}}
-          kubectl config use-context ${{secrets.EKS_CLUSTER_NAME}}
 
       - uses: actions/checkout@v4
 
