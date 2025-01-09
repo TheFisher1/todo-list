@@ -1,6 +1,6 @@
 import 'dotenv/config';
 import './db/db.js';
-import router from './routes/userRoutes';
+import router from './routes/userRoutes.js';
 import express, { json } from 'express';
 import cors from 'cors';
 
@@ -30,8 +30,5 @@ app.use((err, req, res, next) => {
 });
 
 app.listen(PORT, () => {
-  console.log(process.env.DATABASE_URL);
-  console.log(process.env.JWT_SECRET);
-
   console.log(`User Service running on port ${PORT}`);
 }); 

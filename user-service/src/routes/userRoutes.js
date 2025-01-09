@@ -1,10 +1,10 @@
 import { Router } from 'express';
 import { hash, compare } from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import User from '../models/User';
-
-import auth from '../middleware/auth';
 import 'dotenv/config';
+
+import User from '../models/User.js';
+import auth from '../middleware/auth.js';
 
 const router = Router();
 

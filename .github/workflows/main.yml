@@ -148,9 +148,7 @@ jobs:
             context: ./${{ matrix.service }}
             push: true
             tags: ${{ secrets.DOCKER_USERNAME }}/todo-list:${{ matrix.service }}-${{ github.sha }}
-        
-
-
+            
     Deploy:
       name: Deploy to EKS
       runs-on: ubuntu-latest
