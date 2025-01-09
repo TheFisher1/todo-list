@@ -18,8 +18,26 @@ jobs:
       - uses: gitleaks/gitleaks-action@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    Lint:
+      runs-on: ubuntu-latest
+      steps:
+        - name: Checkout repository
+          uses: actions/checkout@v4
+        - name: Set up Node.js
+          uses: actions/setup-node@v3
+          with:
+            node-version: "22"
+        - name: Install Eslint
+          run: |
+            npm install -g eslint
+        - name: Run Lint
+          run: |
+            chmod +x ./scripts/lint.sh && ./scripts/lint.sh
+
     Snyk:
       runs-on: ubuntu-latest
+      needs: [Lint, GitLeaks]
       steps:
         - name: Checkout repository
           uses: actions/checkout@v4
@@ -30,6 +48,7 @@ jobs:
 
     Trivy:
       runs-on: ubuntu-latest
+      needs: [Lint, GitLeaks]
       steps:
         - name: Checkout repository
           uses: actions/checkout@v4
