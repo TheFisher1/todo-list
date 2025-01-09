@@ -1,5 +1,5 @@
-const jwt = require('jsonwebtoken');
-require('dotenv').config();
+import { verify } from 'jsonwebtoken';
+import 'dotenv/config';
 
 const auth = (req, res, next) => {
   try {
@@ -13,7 +13,7 @@ const auth = (req, res, next) => {
     console.log(token);
     console.log("auth", process.env.JWT_SECRET);
 
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const decoded = verify(token, process.env.JWT_SECRET);
     req.user = decoded;
     next();
   } catch (error) {
@@ -21,4 +21,4 @@ const auth = (req, res, next) => {
   }
 };
 
-module.exports = auth; 
+export default auth; 

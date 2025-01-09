@@ -1,6 +1,14 @@
 {
     "name": "todo-list",
 "private": "true",
+  "version": "1.0.0",
+  "devDependencies": {
+    "eslint": "^8.0.0",
+    "eslint-plugin-react": "^7.33.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0"
+  },
   "scripts": {
     "migrate": "cd ./task-service && npm run migrate && cd ../user-service && npm run migrate",
     "test": "cd ./task-service && npm run test && cd ../user-service && npm run test",
@@ -8,6 +16,7 @@
     "build:task-service": "cd ./task-service && npm run build",
     "build:gateway": "cd ./api-gateway && npm run build",
     "build:client": "cd ./frontend-service && npm run build",
-    "build": "npm run build:user-service && npm run build:task-service && npm run build:task-service && npm run build:client"
+    "build": "npm run build:user-service && npm run build:task-service && npm run build:task-service && npm run build:client",
+    "lint": "eslint . --ext .js,.jsx"
   }
 }

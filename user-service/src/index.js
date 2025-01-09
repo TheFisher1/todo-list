@@ -1,8 +1,10 @@
-require('dotenv').config();
-const express = require('express');
-const cors = require('cors');
-const userRoutes = require('./routes/userRoutes');
-require('./db/db');
+import 'dotenv/config';
+
+import express, { json } from 'express';
+import cors from 'cors';
+import userRoutes from './routes/userRoutes';
+
+import './db/db';
 
 const app = express();
 const PORT = process.env.PORT || 3002;
@@ -11,7 +13,7 @@ app.use(cors({
   origin: '*',
   exposedHeaders: ["Authorization"]
 }));
-app.use(express.json());
+app.use(json());
 
 app.use('/users', userRoutes);
 

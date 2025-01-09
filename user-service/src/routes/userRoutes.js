@@ -1,15 +1,16 @@
-const express = require('express');
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-const User = require('../models/User');
-const router = express.Router();
-const auth = require('../middleware/auth');
-require('dotenv').config();
+import { Router } from 'express';
+import { hash, compare } from 'bcrypt';
+import { sign } from 'jsonwebtoken';
+import User from '../models/User';
+const router = Router();
+import auth from '../middleware/auth';
+import 'dotenv/config';
+
 router.post('/register', async (req, res) => {
   try {
     const { email, password, name } = req.body;
     
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const hashedPassword = await hash(password, 10);
     
     const user = await User.query().insert({
       email,
@@ -43,7 +44,7 @@ router.post('/login', async (req, res) => {
       return res.status(401).json({ error: 'Invalid credentials' });
     }
 
-    const validPassword = await bcrypt.compare(password, user.password);
+    const validPassword = await compare(password, user.password);
     
     if (!validPassword) {
       return res.status(401).json({ error: 'Invalid credentials' });
@@ -51,7 +52,7 @@ router.post('/login', async (req, res) => {
 
     console.log("user", process.env.JWT_SECRET);
 
-    const token = jwt.sign({ userId: user.id, name: user.name, email: user.email },
+    const token = sign({ userId: user.id, name: user.name, email: user.email },
       process.env.JWT_SECRET,
       { expiresIn: '24h' }
     );
@@ -75,4 +76,4 @@ router.get('/profile', auth, async (req, res) => {
 
 
 
-module.exports = router; 
+export default router; 

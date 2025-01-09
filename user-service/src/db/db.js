@@ -1,6 +1,6 @@
-const { Model } = require('objection');
-const Knex = require('knex');
-const knexConfig = require('./knexfile');
+import { Model } from 'objection';
+import Knex from 'knex';
+import knexConfig from './knexfile';
 
 console.log('Database URL:', process.env.DATABASE_URL);
 
@@ -38,4 +38,4 @@ knex.raw('SELECT 1')
 
 Model.knex(knex);
 
-module.exports = knex; 
+export default knex; 
