@@ -1,25 +1,29 @@
-const express = require('express');
-const cors = require('cors');
-require('./db/db');
-const taskRoutes = require('./routes/taskRoutes');
+import express, { json } from 'express';
+import cors from 'cors';
+import taskRoutes from './routes/taskRoutes.js'
+import { Model } from 'objection';
+import Knex from 'knex';
+import { development } from './db/knexfile.js';
 
 const app = express();
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT;
 
-app.use(cors());
-app.use(express.json());
+const knex = Knex(development);
+Model.knex(knex);
 
+app.use(json());
 app.use('/tasks', taskRoutes);
 
 app.use(cors({
+    origin: '*',
     exposedHeaders: ["Authorization"],
-    origin: 'http://api-gateway:3000/'
 }));
 
 app.use((err, req, res, next) => {
   if (err.statusCode) {
     return res.status(err.statusCode).json({ error: err.message });
   }
+
   console.error(err);
   res.status(500).json({ error: 'Internal server error' });
 });

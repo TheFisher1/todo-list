@@ -1,31 +1,38 @@
-const express = require('express');
-const Task = require('../models/Task');
-const router = express.Router();
+import { Router } from 'express';
+import { Task } from '../models/Task.js';
 
-// Get all tasks for a user
+const router = Router();
+
+router.get('/', async (req, res) => {
+    res.status(200).json({ message: 'Hello World' });
+});
+
 router.get('/user/:userId', async (req, res) => {
   try {
     const tasks = await Task.query()
       .where('userId', req.params.userId)
       .orderBy('created_at', 'desc');
+
     res.json(tasks);
   } catch (error) {
     res.status(500).json({ error: 'Error fetching tasks' });
   }
 });
 
-// Create a new task
 router.post('/', async (req, res) => {
   try {
     const { title, description, userId } = req.body;
     const task = await Task.query().insert({
       title,
       description,
-      userId
+      userId,
+      status: 'pending'
     });
+
     res.status(201).json(task);
   } catch (error) {
-    res.status(500).json({ error: 'Error creating task' });
+    console.error(error);
+    res.status(500).json({ error: error.message });
   }
 });
 
@@ -43,15 +50,14 @@ router.put('/:id', async (req, res) => {
     
     res.json(task);
   } catch (error) {
-    res.status(500).json({ error: 'Error updating task' });
+    res.status(500).json({ error: error.message });
   }
 });
 
-// Delete a task
 router.delete('/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    const deleted = await Task.query().deleteById(id);
+    const deleted = await query().deleteById(id);
     
     if (!deleted) {
       return res.status(404).json({ error: 'Task not found' });
@@ -63,4 +69,4 @@ router.delete('/:id', async (req, res) => {
   }
 });
 
-module.exports = router; 
+export default router; 

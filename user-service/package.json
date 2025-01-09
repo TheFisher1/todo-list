@@ -11,11 +11,10 @@
     "migrate:rollback": "knex migrate:rollback --knexfile src/db/knexfile.js"
   },
   "dependencies": {
-    "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.17.1",
-    "jsonwebtoken": "^8.5.1",
+    "jsonwebtoken": "9.0.2",
     "http-proxy-middleware": "^2.0.6",
     "knex": "^3.1.0",
     "objection": "^3.1.4",
@@ -26,6 +25,6 @@
     "nodemon": "^2.0.14",
     "jest": "^26.6.0"
   },
-  "author": "Your Name",
+  "author": "fisher1o1",
   "license": "ISC"
 }

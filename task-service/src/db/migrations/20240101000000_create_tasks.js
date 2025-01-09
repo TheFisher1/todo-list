@@ -1,15 +1,14 @@
-exports.up = function(knex) {
-  return knex.schema.createTable('tasks', table => {
+export function up(knex) {
+  return knex.schema.createTable('tasks', (table) => {
     table.increments('id').primary();
     table.string('title').notNullable();
-    table.text('description');
-    table.boolean('completed').defaultTo(false);
+    table.string('description');
+    table.string('status').defaultTo('pending');
     table.integer('userId').notNullable();
-    table.foreign('userId').references('users.id').onDelete('CASCADE');
     table.timestamps(true, true);
   });
-};
+}
 
-exports.down = function(knex) {
+export function down(knex) {
   return knex.schema.dropTable('tasks');
-}; 
+} 

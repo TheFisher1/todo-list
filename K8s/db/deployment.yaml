@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: todo-list-db
+spec:
+  selector:
+    matchLabels:
+      app: todo-list-db
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: todo-list-db
+    spec:
+      containers:
+        - name: todo-list-db
+          image: postgres:13
+          ports:
+            - containerPort: 5432
+              name: "postgres"
+          volumeMounts:
+            - mountPath: "/var/lib/postgresql/data"
+              name: todo-list-postgres-data-storage
+          env:
+            - name: POSTGRES_DB
+              value: todo_list
+            - name: POSTGRES_USER
+              value: todo_list
+            - name: POSTGRES_PASSWORD
+              value: password
+          resources:
+            limits:
+              memory: 250Mi
+              cpu: "0.5"
+      volumes:
+        - name: todo-list-postgres-data-storage
+          persistentVolumeClaim:
+            claimName: todo-list-postgres-data-persisent-volume-claim

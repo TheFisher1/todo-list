@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: user-service
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: user-service
+  template:
+    metadata:
+      labels:
+        app: user-service
+    spec:
+      containers:
+        - name: user-service
+          image: fisher1o1/todo-list:user-service-v1.0.30
+          ports:
+            - containerPort: 3002
+          env:
+            - name: DATABASE_URL
+              value: "postgres://todo_list:password@todo-list-db-service:5432/todo_list"
+            - name: JWT_SECRET
+              value: "my-secret"
+          resources:
+            limits:
+              memory: 500Mi
+              cpu: 100m

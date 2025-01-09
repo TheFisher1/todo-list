@@ -1,6 +1,6 @@
-const { Model } = require('objection');
+import { Model } from 'objection';
 
-class Task extends Model {
+export class Task extends Model {
   static get tableName() {
     return 'tasks';
   }
@@ -9,32 +9,15 @@ class Task extends Model {
     return {
       type: 'object',
       required: ['title', 'userId'],
-
       properties: {
         id: { type: 'integer' },
-        title: { type: 'string', minLength: 1 },
+        title: { type: 'string' },
         description: { type: 'string' },
-        completed: { type: 'boolean', default: false },
+        status: { type: 'string', default: 'pending' },
         userId: { type: 'integer' },
         created_at: { type: 'string' },
         updated_at: { type: 'string' }
       }
     };
   }
-
-  static get relationMappings() {
-    const User = require('./User');
-    return {
-      user: {
-        relation: Model.BelongsToOneRelation,
-        modelClass: User,
-        join: {
-          from: 'tasks.userId',
-          to: 'users.id'
-        }
-      }
-    };
-  }
-}
-
-module.exports = Task; 
+} 

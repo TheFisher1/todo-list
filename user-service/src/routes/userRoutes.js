@@ -1,9 +1,10 @@
 const express = require('express');
-const bcrypt = require('bcryptjs');
+const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 const router = express.Router();
-
+const auth = require('../middleware/auth');
+require('dotenv').config();
 router.post('/register', async (req, res) => {
   try {
     const { email, password, name } = req.body;
@@ -48,16 +49,30 @@ router.post('/login', async (req, res) => {
       return res.status(401).json({ error: 'Invalid credentials' });
     }
 
-    const token = jwt.sign(
-      { userId: user.id, email: user.email },
+    console.log("user", process.env.JWT_SECRET);
+
+    const token = jwt.sign({ userId: user.id, name: user.name, email: user.email },
       process.env.JWT_SECRET,
       { expiresIn: '24h' }
     );
 
-    res.json({ token, user: { id: user.id, email: user.email, name: user.name } });
+    res.set('Authorization', `Bearer ${token}`);
+    res.json({ user: { id: user.id, email: user.email, name: user.name } });
   } catch (error) {
     res.status(500).json({ error: 'Error during login' });
   }
 });
+
+router.get('/profile', auth, async (req, res) => {
+  try {
+    const user = await User.query().findById(req.user.userId).select('id', 'email', 'name');
+    res.json(user);
+  } catch (error) {
+    console.error('Profile error:', error);
+    res.status(500).json({ message: error.message });
+  }
+});
+
+
 
 module.exports = router; 

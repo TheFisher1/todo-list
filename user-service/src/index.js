@@ -7,25 +7,31 @@ require('./db/db');
 const app = express();
 const PORT = process.env.PORT || 3002;
 
-app.use(cors());
+app.use(cors({
+  origin: '*',
+  exposedHeaders: ["Authorization"]
+}));
 app.use(express.json());
 
 app.use('/users', userRoutes);
 
 app.use(cors({
-    origin: 'http://api-gateway:3000/',
+    origin: '*',
     exposedHeaders: ["Authorization"]
 
 }));
 
 app.use((err, req, res, next) => {
   if (err.statusCode) {
-    return res.status(err.statusCode).json({ error: err.message });
+    return res.status(err.statusCode).json({ error: err.error });
   }
   console.error(err);
   res.status(500).json({ error: 'Internal server error' });
 });
 
 app.listen(PORT, () => {
+  console.log(process.env.DATABASE_URL);
+  console.log(process.env.JWT_SECRET);
+
   console.log(`User Service running on port ${PORT}`);
 }); 

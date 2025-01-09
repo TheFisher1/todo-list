@@ -29,7 +29,6 @@ services:
 
   user-service:
     image: ${DOCKER_USERNAME}/todo-list:user-service
-    command: ["npx", "knex", "migrate:latest", "--knexfile", "src/db/knexfile.js"]
     build:
       context: ./user-service
     ports:
@@ -45,7 +44,6 @@ services:
 
   task-service:
     image: ${DOCKER_USERNAME}/todo-list:task-service
-    command: ["npx", "knex", "migrate:latest", "--knexfile", "src/db/knexfile.js"]
     build:
       context: ./task-service
     ports:

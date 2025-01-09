@@ -1,6 +1,8 @@
 import axios from 'axios';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+const API_URL = process.env.VITE_API_URL;
+
+console.log(API_URL);
 
 export const api = axios.create({
   baseURL: API_URL,
@@ -10,19 +12,18 @@ export const api = axios.create({
   }
 });
 
-// Request interceptor
 api.interceptors.request.use(
   (config) => {
-    // Add token if exists
     const token = localStorage.getItem('token');
     
     if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
+      config.headers['Authorization'] = `Bearer ${token}`;
     }
     console.log('Request:', {
       method: config.method?.toUpperCase(),
       url: config.url,
       data: config.data,
+      headers: config.headers,
     });
     return config;
   },
@@ -32,13 +33,19 @@ api.interceptors.request.use(
   }
 );
 
-// Response interceptor
 api.interceptors.response.use(
   (response) => {
+    const authHeader = response.headers['authorization'];
+    if (authHeader) {
+      const token = authHeader.replace('Bearer ', '');
+      localStorage.setItem('token', token);
+    }
+    
     console.log('Response:', {
       status: response.status,
       url: response.config.url,
       data: response.data,
+      headers: response.headers,
     });
     return response;
   },

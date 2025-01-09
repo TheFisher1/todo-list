@@ -7,11 +7,10 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-
   const fetchUserProfile = async () => {
     try {
-      const response = await api.get('/users/profile');
-      setUser({...response.data, id: response.data._id});
+      const response = await api.get('/users/profile', {});
+      setUser({...response.data, id: response.data.id});
     } catch (error) {
       localStorage.removeItem('token');
     } finally {
@@ -29,10 +28,14 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const login = async (email, password) => {
-    const response = await api.post('/users/login', { email, password });
-    localStorage.setItem('token', response.data.token);
-    await fetchUserProfile();
-    return response.data;
+    try {
+      const response = await api.post('/users/login', { email, password });
+      await fetchUserProfile();
+      return response.data;
+    } catch (error) {
+      console.error('Login error:', error);
+      throw error;
+    }
   };
 
   const logout = () => {
