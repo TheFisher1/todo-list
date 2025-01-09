@@ -147,11 +147,9 @@ jobs:
           with:
             context: ./${{ matrix.service }}
             push: true
-            tags: ${{ secrets.DOCKER_USERNAME }}/${{ matrix.service }}:${{ github.sha }}
+            tags: ${{ secrets.DOCKER_USERNAME }}/todo-list:${{ matrix.service }}-${{ github.sha }}
         
-        - name: Set image
-          run: |
-            echo "IMAGE_URL=${{ secrets.DOCKER_USERNAME }}/todo-list:frontend${{ github.sha }}" >> $GITHUB_OUTPUT
+
 
     Deploy:
       name: Deploy to EKS
