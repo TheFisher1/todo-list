@@ -163,4 +163,7 @@ jobs:
             cluster_name: ${{ secrets.EKS_CLUSTER_NAME }}
             eks_role_arn: ${{ secrets.EKS_ROLE }}
             kubernetes_version: v1.21.0
-            args: set image --record deployment/pod-name pod-name=${{ secrets.DOCKER_USERNAME }}/todo-list:frontend${{ github.sha }}
+            args: |
+              set image --record deployment/frontend frontend=${{ secrets.DOCKER_USERNAME }}/todo-list:frontend${{ github.sha }}
+              set image --record deployment/user-service user-service=${{ secrets.DOCKER_USERNAME }}/todo-list:user-service${{ github.sha }}
+              set image --record deployment/task-service task-service=${{ secrets.DOCKER_USERNAME }}/todo-list:task-service${{ github.sha }}
