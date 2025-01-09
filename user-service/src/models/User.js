@@ -9,6 +9,7 @@ class User extends Model {
     return {
       type: 'object',
       required: ['email', 'password'],
+
       properties: {
         id: { type: 'integer' },
         email: { type: 'string', format: 'email' },

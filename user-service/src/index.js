@@ -1,6 +1,6 @@
 import 'dotenv/config';
 import './db/db.js';
-import router from './routes/userRoutes.js';
+import router from './routes/userRoutes';
 import express, { json } from 'express';
 import cors from 'cors';
 

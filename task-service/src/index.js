@@ -1,9 +1,9 @@
 import express, { json } from 'express';
 import cors from 'cors';
-import taskRoutes from './routes/taskRoutes.js'
+import taskRoutes from './routes/taskRoutes'
 import { Model } from 'objection';
 import Knex from 'knex';
-import { development } from './db/knexfile.js';
+import { development } from './db/knexfile';
 
 const app = express();
 const PORT = process.env.PORT;
