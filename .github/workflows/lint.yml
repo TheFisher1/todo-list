@@ -21,4 +21,4 @@ jobs:
           working-directory: ${{ inputs.working-directory }}
           eslint-args: '--config=.eslintrc.json  --output-file=eslint-report-${{ inputs.working-directory }}-${{ github.sha }}.json'
           extensions: 'js'
-          annotations: true
+          annotations: true          
