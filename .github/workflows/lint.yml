@@ -19,7 +19,7 @@ jobs:
       - run: npm i
       - uses: sibiraj-s/action-eslint@v3
         with:
-          working-directory: ${{ github.path }}
+          working-directory: ${{ inputs.working-directory }}
           eslint-args: '--config=.eslintrc.json'
           extensions: 'js'
           annotations: true
