@@ -152,7 +152,7 @@ jobs:
     Deploy:
       name: Deploy to EKS
       runs-on: ubuntu-latest
-      needs: Docker-Image
+      # needs: Docker-Image
       steps:
         - name: Build and push CONTAINER_NAME
           uses: ianbelcher/eks-kubectl-action@master
