@@ -152,7 +152,7 @@ jobs:
     Deploy:
       name: Deploy to EKS
       runs-on: ubuntu-latest
-      needs: Docker-Image
+      # needs: Docker-Image
       steps:
       - name: Install Kubectl
         run: |
@@ -184,9 +184,10 @@ jobs:
 
       - name: update deployments
         run: |
-          ./scripts/update-image.sh frontend
-          ./scripts/update-image.sh user-service
-          ./scripts/update-image.sh task-service
+          chmod +x ./scripts/update-image.sh &&
+          sudo ./scripts/update-image.sh frontend &&
+          sudo ./scripts/update-image.sh user-service &&
+          sudo ./scripts/update-image.sh task-service
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           GITHUB_SHA: ${{ github.sha }}
