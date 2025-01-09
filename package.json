@@ -2,6 +2,7 @@
     "name": "todo-list",
 "private": "true",
   "scripts": {
+    "migrate": "cd ./task-service && npm run migrate && cd ../user-service && npm run migrate",
     "test": "cd ./task-service && npm run test && cd ../user-service && npm run test",
     "build:user-service": "cd ./user-service && npm run build",
     "build:task-service": "cd ./task-service && npm run build",
