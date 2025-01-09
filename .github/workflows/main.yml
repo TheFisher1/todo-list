@@ -13,16 +13,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: ./.github/workflows/lint.yml
+      - uses: /lint.yml
         with:
           working-directory: ./frontend
-      - uses: ./.github/workflows/lint.yml
+      - uses: /lint.yml
         with:
           working-directory: ./user-service
-      - uses: ./.github/workflows/lint.yml
+      - uses: /lint.yml
         with:
           working-directory: ./task-service
-      - uses: ./.github/workflows/lint.yml
+      - uses: /lint.yml
         with:
           working-directory: ./api-gateway
       
