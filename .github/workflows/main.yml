@@ -188,3 +188,6 @@ jobs:
           ./scripts/update-image.sh frontend
           ./scripts/update-image.sh user-service
           ./scripts/update-image.sh task-service
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          GITHUB_SHA: ${{ github.sha }}
