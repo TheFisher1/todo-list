@@ -104,7 +104,7 @@ jobs:
           uses: actions/checkout@v4
         - name: Install dependencies
           run: |
-            cd ./task-service && npm i
+            cd ./task-service && npm i &&
             cd ../user-service && npm i
         - name: run migrations
           run: |
