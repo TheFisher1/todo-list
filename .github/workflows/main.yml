@@ -158,6 +158,7 @@ jobs:
         run: |
           curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
           sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+          export KUBECONFIG=~/.kube/config
       
       - name: Install AWS
         run: |
@@ -170,11 +171,6 @@ jobs:
           aws configure set aws_access_key_id ${{secrets.AWS_ACCESS_KEY}}
           aws configure set aws_secret_access_key ${{secrets.AWS_SECRET_ACCESS_KEY}}
           aws configure set region ${{secrets.AWS_REGION}}
-
-      # - name: Install Eksctl
-      #   run: |
-      #     curl --silent --location "https://github.com/eksctl-io/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
-      #     sudo mv /tmp/eksctl /usr/local/bin
       
       - name: update kubeconfig and change context
         run: |
