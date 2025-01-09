@@ -181,6 +181,6 @@ jobs:
             aws eks update-kubeconfig --region eu-north-1 --name todoist
         - name: Deploy to EKS
           run: |
-            kubectl set image deployment/frontend frontend= ${{secrets.DOCKER_USERNAME}}/todo-list:frontend${{ github.sha }}
-            kubectl set image deployment/user-service user-service= ${{secrets.DOCKER_USERNAME}}/todo-list:user-service${{ github.sha }}
-            kubectl set image deployment/task-service task-service= ${{secrets.DOCKER_USERNAME}}/todo-list:task-service${{ github.sha }}
+            kubectl patch deployment frontend --type='json' -p='[{"op": "replace", "path": "/spec/template/spec/containers/0/image", "value": ${{secrets.DOCKER_USERNAME}}/todo-list:frontend-${{ github.sha }}}]'
+            kubectl patch deployment user-service --type='json' -p='[{"op": "replace", "path": "/spec/template/spec/containers/0/image", "value": ${{secrets.DOCKER_USERNAME}}/todo-list:user-service-${{ github.sha }}}]'
+            kubectl patch deployment task-service --type='json' -p='[{"op": "replace", "path": "/spec/template/spec/containers/0/image", "value": ${{secrets.DOCKER_USERNAME}}/todo-list:task-service-${{ github.sha }}}]'
