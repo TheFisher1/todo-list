@@ -1,4 +1,4 @@
-name: Lint-Frontend
+name: Lint-Task
 
 on:
   push:
@@ -9,7 +9,7 @@ on:
       - main
 
 jobs:
-  Lint-Frontend:
+  Lint-Task:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

@@ -1,12 +1,10 @@
 name: CI
 
 on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
+  workflow_run:
+    workflows: [Lint-Frontend, Lint-User, Lint-Task]
+    types:
+      - completed
 
 jobs:
     GitLeaks:
@@ -19,30 +17,31 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-    Lint:
-      runs-on: ubuntu-latest
-      steps:
-        - uses: actions/checkout@v4
-        - uses: actions/setup-node@v4
-          with:
-            node-version: '22'
-        - run: npm i
-        - uses: sibiraj-s/action-eslint@v3
-          with:
-            working-directory: ./task-service
-            eslint-args: '--config=.eslintrc.json'
-            extensions: 'js'
-            annotations: true
-        - uses: sibiraj-s/action-eslint@v3
-          with:
-            working-directory: ./user-service
-            eslint-args: '--config=.eslintrc.json'
-            extensions: 'js'
-            annotations: true
+    # Lint:
+    #   runs-on: ubuntu-latest
+    #   needs: Lint-Frontend
+    #   steps:
+    #     - uses: actions/checkout@v4
+    #     - uses: actions/setup-node@v4
+    #       with:
+    #         node-version: '22'
+    #     - run: npm i
+    #     - uses: sibiraj-s/action-eslint@v3
+    #       with:
+    #         working-directory: ./task-service
+    #         eslint-args: '--config=.eslintrc.json'
+    #         extensions: 'js'
+    #         annotations: true
+    #     - uses: sibiraj-s/action-eslint@v3
+    #       with:
+    #         working-directory: ./user-service
+    #         eslint-args: '--config=.eslintrc.json'
+    #         extensions: 'js'
+    #         annotations: true
 
     Snyk:
       runs-on: ubuntu-latest
-      needs: [Lint, GitLeaks]
+      needs: GitLeaks
       steps:
         - name: Checkout repository
           uses: actions/checkout@v4
@@ -53,7 +52,7 @@ jobs:
 
     Trivy:
       runs-on: ubuntu-latest
-      needs: [Lint, GitLeaks]
+      needs: GitLeaks
       steps:
         - name: Checkout repository
           uses: actions/checkout@v4
@@ -79,7 +78,7 @@ jobs:
       needs: [Trivy, Snyk]
       runs-on: ubuntu-latest
       steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - name: SonarCloud Scan
