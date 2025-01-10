@@ -17,10 +17,10 @@ jobs:
         with:
           node-version: '22'
       - run: npm install
-      - run: npm run lint --prefix ./frontend
-      - run: npm run lint --prefix ./user-service
-      - run: npm run lint --prefix ./task-service
-      - run: npm run lint --prefix ./api-gateway
+      - run: npx eslint ./frontend
+      - run: npx eslint ./user-service
+      - run: npx eslint ./task-service
+      - run: npx eslint ./api-gateway
       
   GitLeaks:
     runs-on: ubuntu-latest
@@ -127,6 +127,7 @@ jobs:
       - name: Run tests
         run: |
           cd ./task-service && npm run migrate:test
+          cd ../user-service && npm run migrate:test
         env:
           TEST_DB_HOST: localhost
           TEST_DB_USER: test_user

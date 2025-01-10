@@ -13,7 +13,6 @@ import {
 } from '@chakra-ui/react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { api } from '../api/config';
 
 export const Login = () => {
   const [email, setEmail] = useState('');

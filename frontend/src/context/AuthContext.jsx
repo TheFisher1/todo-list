@@ -11,7 +11,7 @@ export const AuthProvider = ({ children }) => {
     try {
       const response = await api.get('/users/profile', {});
       setUser({...response.data, id: response.data.id});
-    } catch (error) {
+    } catch {
       localStorage.removeItem('token');
     } finally {
       setLoading(false);

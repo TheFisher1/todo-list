@@ -37,7 +37,7 @@ export const TodoList = () => {
     try {
       const response = await api.get(`/tasks/user/${user.id}`);
       setTasks(response.data);
-    } catch (error) {
+    } catch {
       toast({
         title: 'Error fetching tasks',
         status: 'error',
@@ -57,7 +57,7 @@ export const TodoList = () => {
       setNewTask('');
       setDescription('');
       setIsOpen(false);
-    } catch (error) {
+    } catch {
       toast({
         title: 'Error adding task',
         status: 'error',
@@ -73,7 +73,7 @@ export const TodoList = () => {
       });
 
       fetchTasks();
-    } catch (error) {
+    } catch {
       toast({
         title: 'Error updating task',
         status: 'error',
