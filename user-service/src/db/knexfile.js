@@ -15,7 +15,10 @@ export const development = {
 
 export const test = {
   client: 'postgresql',
-  connection: process.env.TEST_DATABASE_URL,
+  host: process.env.TEST_DB_HOST,
+  user: process.env.TEST_DB_USER,
+  password: process.env.TEST_DB_PASSWORD,
+  database: process.env.TEST_DB_NAME, 
   migrations: {
     tableName: 'knex_migrations',
     directory: './migrations'
