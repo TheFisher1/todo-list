@@ -10,7 +10,7 @@
     "migrate:test": "knex migrate:latest --knexfile src/db/knexfile.js --env test",
     "migrate:rollback": "knex migrate:rollback --knexfile src/db/knexfile.js --env development",
     "test": "NODE_ENV=test NODE_OPTIONS=--experimental-vm-modules jest --runInBand --detectOpenHandles",
-    "lint": "eslint ."
+    "lint": "eslint src"
   },
   "dependencies": {
     "cors": "^2.8.5",
