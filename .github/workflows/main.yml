@@ -16,10 +16,9 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - run: npm install
-      - run: npx eslint ./frontend --config ./frontend/.eslintrc.json
-      - run: npx eslint ./user-service --config ./user-service/.eslintrc.json
-      - run: npx eslint ./task-service --config ./task-service/.eslintrc.json
+      - run: cd frontend && npm i && npx eslint . --config .eslintrc.json
+      - run: cd user-service && npm i && npx eslint . --config .eslintrc.json
+      - run: cd task-service && npm i && npx eslint . --config .eslintrc.json
       
   GitLeaks:
     runs-on: ubuntu-latest
