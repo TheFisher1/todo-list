@@ -16,17 +16,10 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-
-      - name: npm install
-        working-directory: ./frontend
-        run: npm i --ignore-scripts
-  
-      - name: Run ESLint
-        uses: ninosaurus/eslint-check@v5
-        with:
-          eslint-config-path: "./frontend/eslint.config.js"
-          custom-directory: "./frontend"
-          repo-token: ${{secrets.GIT_TOKEN}}
+      - run: npm install
+      - run: npx eslint ./frontend --config ./frontend/eslint.config.js
+      - run: npx eslint ./user-service --config ./user-service/eslint.config.js
+      - run: npx eslint ./task-service --config ./task-service/eslint.config.js
       
   GitLeaks:
     runs-on: ubuntu-latest

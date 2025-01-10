@@ -17,5 +17,11 @@ export default [
       'react/unescaped-entities': 'off',
     },
   },
-  {files: ["src/**/*.jsx", "src/**/*.js"]},
+  {
+    overrides: [
+      {
+        files: ["src/**/*.jsx", "src/**/*.js"],
+      },
+    ],
+  },
 ];

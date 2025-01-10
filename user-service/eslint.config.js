@@ -7,12 +7,17 @@ export default [
   {languageOptions: { globals: globals.browser }},
   pluginJs.configs.recommended,
   {
-    files: ["**/*.js"],
+    overrides: [
+      {
+        files: ["**/*.js"]
+      }
+    ]
+  },
+  {
     languageOptions: {
       parserOptions: {
         ecmaVersion: 2020,
       },
-    },
-    
+    },    
   },
 ];
