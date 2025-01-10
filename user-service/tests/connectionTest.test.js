@@ -1,4 +1,4 @@
-import { User } from '../src/models/User';
+import { User } from '../src/models/User.js';
 
 describe('User Service Tests', () => {
    test('should connect to the database', async () => {
