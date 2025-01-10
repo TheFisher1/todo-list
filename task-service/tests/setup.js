@@ -1,5 +1,5 @@
-import knex from 'knex';
-import { test as testConfig } from '../src/db/knexfile.js';
+const knex = require('knex');
+const testConfig = require('../src/db/knexfile.js');
 
 export async function setupTestDb() {
   const db = knex(testConfig);

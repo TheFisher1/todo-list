@@ -1,5 +1,5 @@
-import { setupTestDb, teardownTestDb } from './setup.js';
-import { Task } from '../src/models/Task.js';
+const { setupTestDb, teardownTestDb } = require('./setup.js');
+const Task = require('../src/models/Task.js');
 
 describe('Task Integration Tests', () => {
   let db;
