@@ -90,7 +90,7 @@ jobs:
 
   Tests:
     runs-on: ubuntu-latest
-    needs: Sonarcloud
+    needs: [Sonarcloud, GitLeaks, Lint]
     services:
       postgres:
         image: postgres:16
@@ -111,7 +111,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          cd ./task-service && npm i
+          cd ./task-service && npm i &&
           cd ../user-service && npm i
 
       - name: Run migrations
