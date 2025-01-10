@@ -83,6 +83,7 @@ const config = {
     "js",
     "mjs",
     "cjs",
+    ".test.js"
   //   "jsx",
   //   "ts",
   //   "tsx",
