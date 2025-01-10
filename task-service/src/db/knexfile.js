@@ -20,9 +20,9 @@ const test = {
     database: process.env.TEST_DB_NAME
   },
   migrations: {
-    directory: './migrations'
+    directory: './migrations',
+    tableName: 'knex_migrations_tasks'
   },
-  tableName: 'knex_migrations_tasks',
   ...knexSnakeCaseMappers()
 };
 
