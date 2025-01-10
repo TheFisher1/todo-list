@@ -111,6 +111,7 @@ jobs:
 
       - name: Install dependencies
         run: |
+          npm i &&
           cd ./task-service && npm i &&
           cd ../user-service && npm i
 
