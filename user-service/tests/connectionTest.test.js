@@ -5,13 +5,13 @@ describe('User Service Tests', () => {
     await User.query().insert({
         name: 'test',
         email: 'test@test.com',
-        password: 'test'
+        password: 'testTest'
     });
 
     const users = await User.query().where('email', 'test@test.com');
     expect(users).toHaveLength(1);
     expect(users[0].name).toBe('test');
     expect(users[0].email).toBe('test@test.com');
-    expect(users[0].password).toBe('test');
+    expect(users[0].password).toBe('testTest');
    });
 });
