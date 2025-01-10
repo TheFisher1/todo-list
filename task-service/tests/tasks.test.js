@@ -2,14 +2,9 @@ import { setupTestDb, teardownTestDb } from './setup.js';
 import { Task } from '../src/models/Task.js';
 
 describe('Task Integration Tests', () => {
-  let db;
 
   beforeAll(async () => {
-    db = await setupTestDb();
-  });
-
-  afterAll(async () => {
-    await teardownTestDb(db);
+    await setupTestDb();
   });
 
   beforeEach(async () => {

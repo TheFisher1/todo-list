@@ -7,8 +7,3 @@ export async function setupTestDb() {
   Model.knex(db);  
   return db;
 }
-
-export async function teardownTestDb(db) {
-  await db.migrate.rollback(true);
-  await db.destroy();
-} 
