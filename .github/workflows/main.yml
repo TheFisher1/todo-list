@@ -197,6 +197,3 @@ jobs:
         run: |
           chmod +x ./scripts/update-deployment.sh
           ./scripts/update-deployment.sh
-        env:
-          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-          GITHUB_SHA: ${{ github.sha }}
