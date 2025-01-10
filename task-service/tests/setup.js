@@ -1,11 +1,9 @@
-const knex = require('knex');
-const testConfig = require('../src/db/knexfile.js');
+import knex from 'knex';
+import testConfig from '../src/db/knexfile.js';
 
 export async function setupTestDb() {
   const db = knex(testConfig);
-  
-  await db.migrate.latest();
-  
+  Model.knex(db);  
   return db;
 }
 

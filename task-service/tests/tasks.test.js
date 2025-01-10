@@ -1,12 +1,12 @@
-const { setupTestDb, teardownTestDb } = require('./setup.js');
-const Task = require('../src/models/Task.js');
+import { setupTestDb, teardownTestDb } from './setup.js';
+import { knex, Task } from '../src/models/Task.js';
 
 describe('Task Integration Tests', () => {
   let db;
 
   beforeAll(async () => {
     db = await setupTestDb();
-    Task.knex(db);
+    knex(db);
   });
 
   afterAll(async () => {
