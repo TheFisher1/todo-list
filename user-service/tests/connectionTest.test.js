@@ -1,6 +1,17 @@
 import User from '../src/models/User.js';
+import { setupTestDb, teardownTestDb } from './setup.js';
 
 describe('User Service Tests', () => {
+    let db;
+
+    beforeAll(async () => {
+        db = await setupTestDb();
+    });
+
+    afterAll(async () => {
+        await teardownTestDb(db);
+    });
+
    test('should connect to the database', async () => {
     await User.query().insert({
         name: 'test',
