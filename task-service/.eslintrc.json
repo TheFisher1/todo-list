@@ -1,0 +1,26 @@
+{
+    "overrides": [
+      {
+        "files": ["**/*.js"],
+        "parserOptions": {
+          "ecmaVersion": 2020
+        },
+        "globals": {
+          "window": "readonly",
+          "document": "readonly",
+          "console": "readonly",
+          "module": "readonly",
+          "require": "readonly"
+        },
+        "rules": {
+          "react/prop-types": "off",
+          "react/react-in-jsx-scope": "off",
+          "react/no-unescaped-entities": "off"
+        }
+      }
+    ],
+    "extends": [
+      "@eslint/js",
+      "plugin:react/recommended"
+    ]
+  }

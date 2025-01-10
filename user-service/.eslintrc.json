@@ -1,0 +1,21 @@
+{
+  "overrides": [
+    {
+      "files": ["**/*.js"],
+      "parserOptions": {
+        "ecmaVersion": 2020
+      },
+      "globals": {
+        "window": "readonly",
+        "document": "readonly",
+        "console": "readonly",
+        "module": "readonly",
+        "require": "readonly"
+      }
+    }
+  ],
+  "extends": [
+    "@eslint/js",
+    "plugin:react/recommended"
+  ]
+}
