@@ -1,5 +1,5 @@
 import User from '../src/models/User.js';
-import { setupTestDb, teardownTestDb } from './setup.js';
+import { setupTestDb } from './setup.js';
 
 describe('User Service Tests', () => {
     let db;

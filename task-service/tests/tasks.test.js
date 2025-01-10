@@ -1,4 +1,4 @@
-import { setupTestDb, teardownTestDb } from './setup.js';
+import { setupTestDb } from './setup.js';
 import { Task } from '../src/models/Task.js';
 
 describe('Task Integration Tests', () => {
