@@ -2,14 +2,9 @@ import User from '../src/models/User.js';
 import { setupTestDb } from './setup.js';
 
 describe('User Service Tests', () => {
-    let db;
 
     beforeAll(async () => {
-        db = await setupTestDb();
-    });
-
-    afterAll(async () => {
-        await teardownTestDb(db);
+        await setupTestDb();
     });
 
    test('should connect to the database', async () => {
