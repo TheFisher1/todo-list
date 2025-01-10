@@ -6,7 +6,6 @@ describe('Task Integration Tests', () => {
 
   beforeAll(async () => {
     db = await setupTestDb();
-    knex(db);
   });
 
   afterAll(async () => {
