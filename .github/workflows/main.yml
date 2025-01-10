@@ -25,19 +25,20 @@ jobs:
   GitLeaks:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: gitleaks/gitleaks-action@v2
-      - uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run Gitleaks
+        uses: gitleaks/gitleaks-action@v2
         with:
-          fetch-depth: 0
-      - uses: gitleaks/gitleaks-action@v2
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Upload Gitleaks report
+          args: |
+            detect --redact -v --exit-code=2 --report-format=sarif --report-path=results-${{ github.sha }}.sarif --log-level=debug --log-opts=-1
+
+      - name: Upload SARIF report
         uses: actions/upload-artifact@v3
         with:
           name: gitleaks-report-${{ github.sha }}
-          path: gitleaks-report.json
+          path: results-${{ github.sha }}.sarif
   
   Snyk:
       runs-on: ubuntu-latest
