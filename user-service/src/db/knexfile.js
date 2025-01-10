@@ -7,8 +7,8 @@ export const development = {
     min: 2,
     max: 10
   },
+  tableName: 'knex_migrations',
   migrations: {
-    tableName: 'knex_migrations',
     directory: './migrations'
   }
 }; 
@@ -22,7 +22,7 @@ export const test = {
     database: process.env.TEST_DB_NAME
   },
   migrations: {
-    tableName: 'knex_migrations',
-    directory: './migrations'
-  }
+    directory: './migrations',
+  },
+  tableName: 'knex_migrations'
 };
