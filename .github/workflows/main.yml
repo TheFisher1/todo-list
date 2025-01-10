@@ -17,9 +17,9 @@ jobs:
         with:
           node-version: '22'
       - run: npm install
-      - run: npx eslint ./frontend --config ./frontend/eslint.config.js
-      - run: npx eslint ./user-service --config ./user-service/eslint.config.js
-      - run: npx eslint ./task-service --config ./task-service/eslint.config.js
+      - run: npx eslint ./frontend --config ./frontend/eslint.config.mjs
+      - run: npx eslint ./user-service --config ./user-service/eslint.config.mjs
+      - run: npx eslint ./task-service --config ./task-service/eslint.config.mjs
       
   GitLeaks:
     runs-on: ubuntu-latest
