@@ -52,8 +52,6 @@ router.post('/login', async (req, res) => {
       return res.status(401).json({ error: 'Invalid credentials' });
     }
 
-    console.log("user", process.env.JWT_SECRET);
-
     const token = jwt.sign({ userId: user.id, name: user.name, email: user.email },
       process.env.JWT_SECRET,
       { expiresIn: '24h' }
@@ -62,6 +60,7 @@ router.post('/login', async (req, res) => {
     res.set('Authorization', `Bearer ${token}`);
     res.json({ user: { id: user.id, email: user.email, name: user.name } });
   } catch (error) {
+    console.log(error.message);
     res.status(500).json({ error: 'Error during login' });
   }
 });

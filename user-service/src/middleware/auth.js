@@ -1,5 +1,6 @@
 import 'dotenv/config';
 import jwt from 'jsonwebtoken';
+import 'dotenv/config';
 
 const auth = (req, res, next) => {
   try {
@@ -15,6 +16,7 @@ const auth = (req, res, next) => {
     req.user = decoded;
     next();
   } catch (error) {
+    console.log(error.message);
     res.status(401).json({ message: 'Token is not valid' });
   }
 };
