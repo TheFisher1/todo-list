@@ -1,5 +1,5 @@
 import { setupTestDb, teardownTestDb } from './setup.js';
-import { knex, Task } from '../src/models/Task.js';
+import { Task } from '../src/models/Task.js';
 
 describe('Task Integration Tests', () => {
   let db;
