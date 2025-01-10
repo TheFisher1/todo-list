@@ -9,7 +9,8 @@
     "migrate": "knex migrate:latest --knexfile src/db/knexfile.js --env development",
     "migrate:test": "knex migrate:latest --knexfile src/db/knexfile.js --env test",
     "migrate:rollback": "knex migrate:rollback --knexfile src/db/knexfile.js --env development",
-    "test": "NODE_ENV=test NODE_OPTIONS=--experimental-vm-modules jest --runInBand --detectOpenHandles"
+    "test": "NODE_ENV=test NODE_OPTIONS=--experimental-vm-modules jest --runInBand --detectOpenHandles",
+    "lint": "eslint ."
   },
   "dependencies": {
     "cors": "^2.8.5",
@@ -22,7 +23,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.17.0",
-    "eslint": "^9.17.0",
+    "eslint": "^8.56.0",
     "globals": "^15.14.0",
     "nodemon": "^2.0.14"
   },

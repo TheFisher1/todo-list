@@ -17,8 +17,8 @@ jobs:
         with:
           node-version: '22'
       - run: cd ./frontend && npm i && npm run lint
-      - run: cd ./user-service && npm i && npx eslint .
-      - run: cd ./task-service && npm i && npx eslint .
+      - run: cd ./user-service && npm i && npm run lint
+      - run: cd ./task-service && npm i && npm run lint
       
   GitLeaks:
     runs-on: ubuntu-latest

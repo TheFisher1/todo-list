@@ -1,16 +1,20 @@
-const globals = require("globals");
-const pluginJs = require("@eslint/js");
-
-/** @type {import('eslint').Linter.Config[]} */
-module.exports = [
-  {
-    languageOptions: { globals: globals.browser },
+module.exports = {
+  root: true,
+  env: {
+    node: true,
+    es2021: true,
+    jest: true
   },
-  {
-    overrides: [
-      {
-        files: ["src/**/*.js"],
-      },
-    ],
+  extends: [
+    'eslint:recommended'
+  ],
+  parserOptions: {
+    ecmaVersion: 'latest',
+    sourceType: 'module'
   },
-];
+  rules: {
+    'no-console': 'warn',
+    'no-unused-vars': ['error', { 'argsIgnorePattern': '^_' }]
+  },
+  ignorePatterns: ['dist/', 'build/', 'node_modules/', '*.config.js']
+};
