@@ -126,8 +126,8 @@ jobs:
 
       - name: Run tests
         run: |
-          cd ./task-service && npx jest
-          cd ../user-service && npx jest
+          cd ./task-service && npm run test
+          cd ../user-service && npm run test
         env:
           TEST_DB_HOST: localhost
           TEST_DB_USER: test_user
