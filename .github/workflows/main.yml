@@ -26,7 +26,7 @@ jobs:
         with:
           eslint-config-path: "./frontend/eslint.config.js"
           custom-directory: "./frontend"
-          repo-token: ${{secrets.GITHUB_TOKEN}}
+          repo-token: ${{secrets.GIT_TOKEN}}
       
   GitLeaks:
     runs-on: ubuntu-latest
