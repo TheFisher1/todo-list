@@ -72,14 +72,16 @@ const config = {
   // maxWorkers: "50%",
 
   // An array of directory names to be searched recursively up from the requiring module's location
-  // moduleDirectories: [
-  //   "node_modules"
-  // ],
+  moduleDirectories: [
+    "node_modules",
+    "user-service/node_modules",
+    "task-service/node_modules"
+  ],
 
   // An array of file extensions your modules use
   moduleFileExtensions: [
     "js",
-    "mjs", 
+    "mjs",
     "cjs",
   //   "jsx",
   //   "ts",
@@ -125,9 +127,10 @@ const config = {
   // rootDir: undefined,
 
   // A list of paths to directories that Jest should use to search for files in
-  // roots: [
-  //   "<rootDir>"
-  // ],
+  roots: [
+    "./user-service",
+    "./task-service"
+  ],
 
   // Allows you to use a custom runner instead of Jest's default test runner
   // runner: "jest-runner",
@@ -195,4 +198,4 @@ const config = {
   // watchman: true,
 };
 
-export default config;
+module.exports = config;

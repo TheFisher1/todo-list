@@ -1,15 +1,24 @@
 {
-    "name": "todo-list",
-    "private": "true",
-    "version": "1.0.0",
-    "scripts": {
-        "migrate": "cd ./task-service && npm run migrate && cd ../user-service && npm run migrate",
-        "test": "cd ./task-service && npm run test && cd ../user-service && npm run test",
-        "build:user-service": "cd ./user-service && npm run build",
-        "build:task-service": "cd ./task-service && npm run build",
-        "build:gateway": "cd ./api-gateway && npm run build",
-        "build:client": "cd ./frontend-service && npm run build",
-        "build": "npm run build:user-service && npm run build:task-service && npm run build:task-service && npm run build:client",
-        "lint": "eslint . --ext .js,.jsx"
-    }
+  "name": "todo-list",
+  "private": "true",
+  "version": "1.0.0",
+  "scripts": {
+    "migrate": "cd ./task-service && npm run migrate && cd ../user-service && npm run migrate",
+    "test": "jest",
+    "build:user-service": "cd ./user-service && npm run build",
+    "build:task-service": "cd ./task-service && npm run build",
+    "build:gateway": "cd ./api-gateway && npm run build",
+    "build:client": "cd ./frontend-service && npm run build",
+    "build": "npm run build:user-service && npm run build:task-service && npm run build:task-service && npm run build:client",
+    "lint": "eslint . --ext .js,.jsx"
+  },
+  "workspaces": [
+    "user-service",
+    "task-service",
+    "api-gateway",
+    "frontend-service"
+  ],
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
 }
