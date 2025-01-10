@@ -31,7 +31,7 @@ app.use(cors({
     exposedHeaders: ["Authorization"],
 }));
 
-app.use((err, req, res, next) => {
+app.use((err, _, res) => {
   if (err.statusCode) {
     return res.status(err.statusCode).json({ error: err.message });
   }
