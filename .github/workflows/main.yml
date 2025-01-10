@@ -16,7 +16,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - run: cd ./frontend && npm i && npx eslint .
+      - run: cd ./frontend && npm i && npm run lint
       - run: cd ./user-service && npm i && npx eslint .
       - run: cd ./task-service && npm i && npx eslint .
       
