@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "scripts": {
     "migrate": "cd ./task-service && npm run migrate && cd ../user-service && npm run migrate",
-    "test": "jest",
+    "test": "NODE_OPTIONS='--experimental-vm-modules' jest",
     "build:user-service": "cd ./user-service && npm run build",
     "build:task-service": "cd ./task-service && npm run build",
     "build:gateway": "cd ./api-gateway && npm run build",

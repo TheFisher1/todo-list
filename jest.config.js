@@ -8,7 +8,5 @@ module.exports = {
   collectCoverage: true,
   coverageDirectory: 'coverage',
   transformIgnorePatterns: [],
-  transform: {
-    "^.+\\.js$": "babel-jest",
-  },
+  transform: {},
 };
