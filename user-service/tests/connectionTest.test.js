@@ -1,4 +1,4 @@
-const userService = require('./userService');
+import User from '../src/models/User';
 
 describe('User Service Tests', () => {
    test('should connect to the database', async () => {

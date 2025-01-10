@@ -1,4 +1,5 @@
-kubectl patch deployment frontend --type='json' -p="[{\"op\": \"replace\", \"path\": \"/spec/template/spec/containers/0/image\", \"value\": \"${DOCKER_USERNAME}/todo-list:frontend-${GITHUB_SHA}\"}]"
+kubectl patch deployment frontend --type='json' -p="[ {\"op\": \"replace\", \"path\": \"/spec/template/spec/containers/0/image\", \"value\": \"${DOCKER_USERNAME}/todo-list:frontend-${GITHUB_SHA}\"} ]"
+
 
 kubectl patch deployment user-service --type='json' -p="[ {\"op\": \"replace\", \"path\": \"/spec/template/spec/containers/0/image\", \"value\": \"${DOCKER_USERNAME}/todo-list:user-service-${GITHUB_SHA}\"} ]"
 
