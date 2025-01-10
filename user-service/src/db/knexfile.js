@@ -12,3 +12,12 @@ export const development = {
     directory: './migrations'
   }
 }; 
+
+export const test = {
+  client: 'postgresql',
+  connection: process.env.TEST_DATABASE_URL,
+  migrations: {
+    tableName: 'knex_migrations',
+    directory: './migrations'
+  }
+};

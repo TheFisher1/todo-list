@@ -22,9 +22,7 @@ const test = {
   migrations: {
     directory: './migrations'
   },
-  history: {
-    tableName: 'knex_migrations_tasks'
-  },
+  tableName: 'knex_migrations_tasks',
   ...knexSnakeCaseMappers()
 };
 
