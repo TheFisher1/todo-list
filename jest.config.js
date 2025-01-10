@@ -133,6 +133,10 @@ const config = {
     "./task-service"
   ],
 
+  transform: {
+    '^.+\\.jsx?$': 'babel-jest',
+  },
+
   // Allows you to use a custom runner instead of Jest's default test runner
   // runner: "jest-runner",
 
