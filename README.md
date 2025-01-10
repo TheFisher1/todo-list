@@ -45,3 +45,8 @@ To get started with the project, follow these steps:
 
 ## Usage
 To start the application, run the following command:
+the easiest way to start the application is to use 
+
+```bash
+docker compose up
+```
