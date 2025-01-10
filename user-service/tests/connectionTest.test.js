@@ -8,7 +8,7 @@ describe('User Service Tests', () => {
         password: 'test'
     });
 
-    const users = await query().where('email', 'test@test.com');
+    const users = await User.query().where('email', 'test@test.com');
     expect(users).toHaveLength(1);
     expect(users[0].name).toBe('test');
     expect(users[0].email).toBe('test@test.com');
