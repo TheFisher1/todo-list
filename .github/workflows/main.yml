@@ -16,9 +16,9 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - run: cd frontend && npm i && npx eslint . --config .eslintrc.json
-      - run: cd user-service && npm i && npx eslint . --config .eslintrc.json
-      - run: cd task-service && npm i && npx eslint . --config .eslintrc.json
+      - run: cd frontend && npm i --legacy-peer-deps && npx eslint . --config .eslintrc.json
+      - run: cd user-service && npm i --legacy-peer-deps && npx eslint . --config .eslintrc.json
+      - run: cd task-service && npm i --legacy-peer-deps && npx eslint . --config .eslintrc.json
       
   GitLeaks:
     runs-on: ubuntu-latest
