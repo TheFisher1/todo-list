@@ -3,7 +3,7 @@ import { Task } from '../models/Task.js';
 
 const router = Router();
 
-router.get('/', async (req, res) => {
+router.get('/', async (_, res) => {
     res.status(200).json({ message: 'Hello World' });
 });
 
@@ -57,7 +57,7 @@ router.put('/:id', async (req, res) => {
 router.delete('/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    const deleted = await query().deleteById(id);
+    const deleted = await Task.query().deleteById(id);
     
     if (!deleted) {
       return res.status(404).json({ error: 'Task not found' });
