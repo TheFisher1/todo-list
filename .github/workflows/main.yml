@@ -90,7 +90,7 @@ jobs:
 
   Tests:
     runs-on: ubuntu-latest
-    # needs: [Sonarcloud, Snyk, Trivy]
+    needs: [Sonarcloud, Snyk, Trivy]
     services:
       postgres:
         image: postgres:16
