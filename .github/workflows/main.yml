@@ -90,7 +90,7 @@ jobs:
 
   Tests:
     runs-on: ubuntu-latest
-    needs: [Sonarcloud, GitLeaks, Lint]
+    needs: [Sonarcloud, Snyk, Trivy]
     services:
       postgres:
         image: postgres:16
@@ -117,6 +117,7 @@ jobs:
       - name: Run migrations
         run: |
           cd ./task-service && npm run migrate:test
+          cd ../user-service && npm run migrate:test
         env:
           TEST_DB_HOST: localhost
           TEST_DB_USER: test_user
@@ -125,8 +126,8 @@ jobs:
 
       - name: Run tests
         run: |
-          cd ./task-service && npm run test
-          cd ../user-service && npm run test
+          cd ./task-service && npx run jest
+          cd ../user-service && npx run jest
         env:
           TEST_DB_HOST: localhost
           TEST_DB_USER: test_user
