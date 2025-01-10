@@ -7,7 +7,6 @@
   "scripts": {
     "start": "node src/index.js",
     "dev": "nodemon src/index.js",
-    "test": "jest",
     "lint": "eslint .",
     "migrate": "knex migrate:latest --knexfile src/db/knexfile.js",
     "migrate:test": "knex migrate:latest --knexfile src/db/knexfile.js --env test",
@@ -29,7 +28,6 @@
     "@types/cors": "^2.8.17",
     "eslint": "^8.56.0",
     "globals": "^15.14.0",
-    "jest": "^26.6.0",
     "nodemon": "^2.0.14"
   },
   "author": "fisher1o1",
