@@ -9,9 +9,9 @@ This project is developed as final project for the course "Modern DevOps Practic
 - [Installation](#installation)
 - [Usage](#usage)
 - [Testing](#testing)
-- [API Endpoints](#api-endpoints)
+- [GitHub Actions Workflow](#github-actions-workflow)
 - [Environment Variables](#environment-variables)
-- [Contributing](#contributing)
+- [Furthur improvements](#furthur-improvements)
 - [License](#license)
 
 ## Features
@@ -52,12 +52,6 @@ Simply run the following command:
 ```bash
 docker compose up
 ```
-
-To run the tests, run the following command:
-```bash
-docker exec <container_id  > npm run test
-```
-
 If you want to run the project locally, run the following command:
 ```bash
    node src/index.js
@@ -66,10 +60,16 @@ in frontend-service, user-service, task-service and api-gateway. Make sure to ha
 
 API Gateway is set up for local setup, 
 
+## Testing
+To run the tests, run the following command:
+```bash
+docker exec <container_id  > npm run test
+```
+
 ## Environment Variables
 The project uses environment variables for configuration. You can find the environment variables in the .env.example file in each service. The variables in the .env file in the root of the project should be set as Github secrets allowing the job to deploy the application.
 
-GitHub Actions Workflow:
+## GitHub Actions Workflow:
    - GitLeaks: Checks for secrets in the codebase.
    - ESLint: Checks for code quality and security.
    - SonarCloud: Checks for code quality and security.
@@ -81,9 +81,12 @@ GitHub Actions Workflow:
 
    The workflow is configured to run the tests when a pull request is created and when a push is made to the main branch.
 
-Furthur improvements:
+## Furthur improvements:
    - Add monitoring and logging.
    - Add task categorization.
    - Add task priority.
    - Add auto-scaling.
    - Add health checks.
+
+## License
+This project is licensed under the MIT License - see the LICENSE file for details.
