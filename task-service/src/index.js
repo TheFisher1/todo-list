@@ -7,8 +7,6 @@ import { Model } from 'objection';
 import { development } from './db/knexfile.js';
 import 'dotenv/config';
 
-console.log(process.env.DATABASE_URL);
-
 const knex = Knex(development);
 Model.knex(knex);
 

@@ -1,7 +1,7 @@
 # Todo List Application
 
 ## Overview
-This is a Todo List application built with Node.js, Express, and Postgres. It allows users to create and read tasks. The application is designed to be simple and user-friendly.
+This project is developed as final project for the course "Modern DevOps Practices" at the Faculty of Mathematics and Computer Science at the University of Sofia. It is meant to be a simple todo list application that allows users to create and read tasks. The application is designed to be simple and user-friendly. It is built with Node.js, Express, and Postgres, along with React for the frontend, containerized with Docker and deployed to AWS EKS. It follows the microservices architecture and is designed to be scalable and fault-tolerant.
 
 ## Table of Contents
 - [Features](#features)
@@ -63,6 +63,11 @@ If you want to run the project locally, run the following command:
    node src/index.js
 ``` 
 in frontend-service, user-service, task-service and api-gateway. Make sure to have your database properly configured.
+
+API Gateway is set up for local setup, 
+
+## Environment Variables
+The project uses environment variables for configuration. You can find the environment variables in the .env.example file in each service. The variables in the .env file in the root of the project should be set as Github secrets allowing the job to deploy the application.
 
 GitHub Actions Workflow:
    - GitLeaks: Checks for secrets in the codebase.
