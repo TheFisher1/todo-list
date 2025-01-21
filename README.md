@@ -1,7 +1,7 @@
 # Todo List Application
 
 ## Overview
-This project is developed as final project for the course "Modern DevOps Practices" at the Faculty of Mathematics and Computer Science at the University of Sofia. It is meant to be a simple todo list application that allows users to create and read tasks. The application is designed to be simple and user-friendly. It is built with Node.js, Express, and Postgres, along with React for the frontend, containerized with Docker and deployed to AWS EKS. It follows the microservices architecture and is designed to be scalable and fault-tolerant.
+This project is developed as final project for the course "Modern DevOps Practices" at the Faculty of Mathematics and Informatics at the Sofia University. It is meant to be a simple todo list application that allows users to create and read tasks. The application is designed to be simple and user-friendly. It is built with Node.js, Express, and Postgres, along with React for the frontend, containerized with Docker and deployed to AWS EKS. It follows the microservices architecture and is designed to be scalable and fault-tolerant.
 
 ## Table of Contents
 - [Features](#features)
