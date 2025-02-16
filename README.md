@@ -81,7 +81,7 @@ The project uses environment variables for configuration. You can find the envir
 
    The workflow is configured to run the tests when a pull request is created and when a push is made to the main branch.
 
-## Furthur improvements:
+## Further improvements:
    - Add monitoring and logging.
    - Add task categorization.
    - Add task priority.
